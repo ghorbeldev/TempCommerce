@@ -1,11 +1,9 @@
 import connectDB from '@/config/db';
 import { inngest } from '@/config/inngest';
-import Order from '@/models/Order';
 import Product from '@/models/Product';
 import User from '@/models/User';
 import { getAuth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
-import { useTransition } from 'react';
 
 export async function POST(request) {
 	try {
