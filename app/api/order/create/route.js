@@ -18,11 +18,12 @@ export async function POST(request) {
 		}
 
 		await connectDB();
-		const amount = items.reduce(async (acc, item) => {
-			const product = await Product.findById(item.product);
+		let amount = 0;
 
-			return (await acc) + product.offerPrice * item.quantity;
-		}, 0);
+		for (const item of items) {
+			const product = await Product.findById(item.product);
+			amount += product.offerPrice * item.quantity;
+		}
 
 		await inngest.send({
 			name: 'order/created',
