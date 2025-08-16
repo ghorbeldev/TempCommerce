@@ -1,10 +1,12 @@
 'use client';
+
 import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import ProductCard from '@/components/ProductCard';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useAppContext } from '@/context/AppContext';
+import Loading from '@/components/Loading';
 
 const PRODUCTS_PER_PAGE = 30;
 
@@ -68,7 +70,13 @@ const AllProducts = () => {
 	};
 
 	return (
-		<>
+		<Suspense
+			fallback={
+				<div>
+					<Loading />
+				</div>
+			}
+		>
 			<Navbar />
 			<div className='flex flex-col items-start px-4 md:px-16 lg:px-32'>
 				{/* Title */}
@@ -167,7 +175,7 @@ const AllProducts = () => {
 				)}
 			</div>
 			<Footer />
-		</>
+		</Suspense>
 	);
 };
 
