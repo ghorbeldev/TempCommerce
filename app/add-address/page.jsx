@@ -46,11 +46,11 @@ const AddAddress = () => {
 				<form onSubmit={onSubmitHandler} className='w-full'>
 					<p className='text-2xl md:text-3xl text-gray-500'>
 						Add Shipping{' '}
-						<span className='font-semibold text-orange-600'>Address</span>
+						<span className='font-semibold text-main-color-600'>Address</span>
 					</p>
 					<div className='space-y-3 max-w-sm mt-10'>
 						<input
-							className='px-2 py-2.5 focus:border-orange-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500'
+							className='px-2 py-2.5 focus:border-main-color-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500'
 							type='text'
 							placeholder='Full name'
 							onChange={e =>
@@ -59,7 +59,7 @@ const AddAddress = () => {
 							value={address.fullName}
 						/>
 						<input
-							className='px-2 py-2.5 focus:border-orange-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500'
+							className='px-2 py-2.5 focus:border-main-color-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500'
 							type='text'
 							placeholder='Phone number'
 							onChange={e =>
@@ -68,7 +68,7 @@ const AddAddress = () => {
 							value={address.phoneNumber}
 						/>
 						<input
-							className='px-2 py-2.5 focus:border-orange-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500'
+							className='px-2 py-2.5 focus:border-main-color-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500'
 							type='text'
 							placeholder='Pin code'
 							onChange={e =>
@@ -77,7 +77,7 @@ const AddAddress = () => {
 							value={address.pincode}
 						/>
 						<textarea
-							className='px-2 py-2.5 focus:border-orange-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500 resize-none'
+							className='px-2 py-2.5 focus:border-main-color-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500 resize-none'
 							type='text'
 							rows={4}
 							placeholder='Address (Area and Street)'
@@ -86,14 +86,14 @@ const AddAddress = () => {
 						></textarea>
 						<div className='flex space-x-3'>
 							<input
-								className='px-2 py-2.5 focus:border-orange-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500'
+								className='px-2 py-2.5 focus:border-main-color-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500'
 								type='text'
 								placeholder='City/District/Town'
 								onChange={e => setAddress({ ...address, city: e.target.value })}
 								value={address.city}
 							/>
 							<input
-								className='px-2 py-2.5 focus:border-orange-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500'
+								className='px-2 py-2.5 focus:border-main-color-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500'
 								type='text'
 								placeholder='State'
 								onChange={e =>
@@ -105,7 +105,7 @@ const AddAddress = () => {
 					</div>
 					<button
 						type='submit'
-						className='max-w-sm w-full mt-6 bg-orange-600 text-white py-3 hover:bg-orange-700 uppercase'
+						className='max-w-sm w-full mt-6 bg-main-color-600 text-white py-3 hover:bg-main-color-700 uppercase'
 					>
 						Save address
 					</button>

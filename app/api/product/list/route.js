@@ -6,7 +6,9 @@ export async function GET(request) {
 	try {
 		await connectDB();
 
-		const products = await Product.find({});
+		const products = await Product.find({
+			image: { $exists: true, $ne: [] }, // images array exists and is not empty
+		});
 
 		return NextResponse.json({ success: true, products });
 	} catch (error) {

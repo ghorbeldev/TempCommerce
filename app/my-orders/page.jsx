@@ -21,7 +21,6 @@ const MyOrders = () => {
 			const { data } = await axios.get('/api/order/list', {
 				headers: { Authorization: `Bearer ${token}` },
 			});
-			console.log(data);
 			if (data.success) {
 				setOrders(data.orders.reverse());
 				setLoading(false);
@@ -85,8 +84,12 @@ const MyOrders = () => {
 										</p>
 									</div>
 									<p className='font-medium my-auto'>
-										{currency}
 										{order.amount}
+										<small className='text-sm text-gray-500'>
+											<b className='font-bold text-main-color-600'>
+												{currency}
+											</b>
+										</small>
 									</p>
 									<div>
 										<p className='flex flex-col'>

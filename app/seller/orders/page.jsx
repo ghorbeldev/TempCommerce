@@ -79,8 +79,10 @@ const Orders = () => {
 									</p>
 								</div>
 								<p className='font-medium my-auto'>
-									{currency}
 									{order.amount}
+									<small className='text-sm text-gray-500'>
+										<b className='font-bold text-main-color-900'>{currency}</b>
+									</small>
 								</p>
 								<div>
 									<p className='flex flex-col'>
