@@ -1,50 +1,17 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
-import axios from 'axios';
+import { useAppContext } from '@/context/AppContext';
 
 export default function HeaderSlider() {
-	const [products, setProducts] = useState([]);
-	const [loading, setLoading] = useState(true);
-	const router = useRouter();
+	const { products, router } = useAppContext();
 
-	useEffect(() => {
-		const fetchProducts = async () => {
-			try {
-				const { data } = await axios.get('/api/product/latest', {
-					cache: 'force-cache',
-				});
-				console.log('res', data);
-				setProducts(data.products || []);
-			} catch (err) {
-				console.error('Failed to fetch products:', err);
-			} finally {
-				setLoading(false);
-			}
-		};
-		fetchProducts();
-	}, []);
+	const sliderProducts = products.slice(0, 5);
 
-	if (loading) {
-		return (
-			<div className='w-full h-[60vh] flex items-center justify-center'>
-				<div className='animate-pulse flex flex-col items-center'>
-					<div className='rounded-full bg-gray-200 h-16 w-16 mb-4'></div>
-					<div className='h-4 bg-gray-200 rounded w-48 mb-2'></div>
-					<div className='h-4 bg-gray-200 rounded w-32'></div>
-				</div>
-			</div>
-		);
-	}
-
-	if (!products.length) {
+	if (!sliderProducts.length) {
 		return (
 			<div className='w-full h-[60vh] flex flex-col items-center justify-center text-gray-400 gap-4'>
 				<svg
@@ -91,7 +58,7 @@ export default function HeaderSlider() {
 				speed={800}
 				className='rounded-2xl md:rounded-3xl overflow-hidden shadow-xl'
 			>
-				{products.map(product => (
+				{sliderProducts.map(product => (
 					<SwiperSlide key={product._id}>
 						<div className='relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[75vh]'>
 							{/* Background Image */}
