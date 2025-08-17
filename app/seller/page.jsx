@@ -5,61 +5,32 @@ import Image from 'next/image';
 import { useAppContext } from '@/context/AppContext';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import CategoryManager from '@/components/seller/CategoryManager';
 
 const AddProduct = () => {
-	const { allCategories, setAllCategories, getToken } = useAppContext();
+	const { getToken } = useAppContext();
 	const [files, setFiles] = useState([]);
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
-	const [categories, setCategories] = useState([]);
 	const [price, setPrice] = useState('');
 	const [offerPrice, setOfferPrice] = useState('');
 	const [shop, setShop] = useState('Shop 1');
-	const [newCategoryName, setNewCategoryName] = useState('');
 	const [options, setOptions] = useState([]);
-
-	// Add new category globally and select it for product
-	const handleAddNewCategory = async () => {
-		const trimmed = newCategoryName.trim();
-		if (!trimmed) return toast.error('Category name cannot be empty.');
-
-		if (allCategories.some(cat => cat.toLowerCase() === trimmed.toLowerCase()))
-			return toast.error('Category already exists globally.');
-		if (categories.some(cat => cat.toLowerCase() === trimmed.toLowerCase()))
-			return toast.error('Category already selected for this product.');
-
-		try {
-			const token = await getToken();
-			const { data } = await axios.post(
-				'/api/category/add',
-				{ name: trimmed },
-				{ headers: { Authorization: `Bearer ${token}` } }
-			);
-			if (data.success) {
-				toast.success(`Category '${trimmed}' added.`);
-				setAllCategories(prev => [...prev, data.category.name]);
-				setCategories(prev => [...prev, data.category.name]);
-				setNewCategoryName('');
-			} else toast.error(data.message);
-		} catch (err) {
-			toast.error(err.message || 'Failed to add category.');
-		}
-	};
-
-	const handleRemoveSelectedCategory = cat =>
-		setCategories(prev => prev.filter(c => c !== cat));
-
-	const handleToggleExistingCategory = cat =>
-		categories.includes(cat)
-			? handleRemoveSelectedCategory(cat)
-			: setCategories(prev => [...prev, cat]);
+	const [categoryData, setCategoryData] = useState({
+		selectedCategories: [],
+		newCategories: '',
+	});
 
 	const handleSubmit = async e => {
 		e.preventDefault();
 		const formData = new FormData();
 		formData.append('name', name);
 		formData.append('description', description);
-		formData.append('categories', categories.join(','));
+		formData.append(
+			'selectedCategories',
+			JSON.stringify(categoryData.selectedCategories)
+		);
+		formData.append('newCategories', categoryData.newCategories);
 		formData.append('price', price);
 		formData.append('offerPrice', offerPrice);
 		formData.append('shop', shop);
@@ -76,7 +47,7 @@ const AddProduct = () => {
 				setFiles([]);
 				setName('');
 				setDescription('');
-				setCategories([]);
+				setCategoryData({ selectedCategories: [], newCategories: '' });
 				setPrice('');
 				setOfferPrice('');
 				setShop('Shop 1');
@@ -159,58 +130,7 @@ const AddProduct = () => {
 				{/* Categories */}
 				<div className='flex flex-col gap-2'>
 					<p className='text-base font-medium'>Categories</p>
-					<div className='flex flex-wrap gap-2'>
-						{categories.map(cat => (
-							<span
-								key={cat}
-								className='flex items-center gap-1 bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded-full'
-							>
-								{cat}
-								<button
-									type='button'
-									onClick={() => handleRemoveSelectedCategory(cat)}
-								>
-									&times;
-								</button>
-							</span>
-						))}
-					</div>
-					<div className='flex gap-2 mt-2'>
-						<input
-							type='text'
-							value={newCategoryName}
-							onChange={e => setNewCategoryName(e.target.value)}
-							onKeyPress={e => {
-								if (e.key === 'Enter') {
-									e.preventDefault();
-									handleAddNewCategory();
-								}
-							}}
-							placeholder='Add new category'
-							className='border px-3 py-2 rounded flex-grow'
-						/>
-						<button
-							type='button'
-							onClick={handleAddNewCategory}
-							className='px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700'
-						>
-							Add
-						</button>
-					</div>
-					<div className='flex flex-wrap gap-2 mt-2'>
-						{allCategories
-							.filter(cat => !categories.includes(cat))
-							.map(cat => (
-								<button
-									type='button'
-									key={cat}
-									onClick={() => handleToggleExistingCategory(cat)}
-									className='px-3 py-1 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 text-sm'
-								>
-									{cat}
-								</button>
-							))}
-					</div>
+					<CategoryManager onChange={setCategoryData} />
 				</div>
 
 				{/* Product Options */}

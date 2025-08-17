@@ -163,22 +163,18 @@ export const AppContextProvider = props => {
 
 	const fetchCategories = async () => {
 		try {
-			setLoading(true);
-			const { data } = await axios.get('/api/category/list');
-			if (data.success) setAllCategories(data.categories.map(c => c.name));
+			const { data } = await axios.get('/api/product/categories');
+			if (data.categories) {
+				setAllCategories(data.categories);
+			}
 		} catch (err) {
 			console.error(err);
-		} finally {
-			setLoading(false);
 		}
 	};
 
 	useEffect(() => {
-		fetchCategories();
-	}, []);
-
-	useEffect(() => {
 		fetchProductData();
+		fetchCategories();
 	}, []);
 
 	useEffect(() => {

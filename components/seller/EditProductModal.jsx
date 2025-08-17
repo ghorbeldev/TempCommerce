@@ -1,97 +1,27 @@
 'use client';
-'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { useAppContext } from '@/context/AppContext'; // Import AppContext
-// import Image from 'next/image'; // Temporarily remove next/image for debugging
+import CategoryManager from './CategoryManager';
 
 const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
-	const { allCategories, setAllCategories } = useAppContext(); // Get allCategories from AppContext
-
 	const [name, setName] = useState(product.name);
 	const [description, setDescription] = useState(product.description);
-	// Initialize selectedCategories with product's categories
-	const [selectedCategories, setSelectedCategories] = useState(
-		product.categories || []
-	);
 	const [price, setPrice] = useState(product.price);
 	const [offerPrice, setOfferPrice] = useState(product.offerPrice);
 	const [shop, setShop] = useState(product.shop || 'Shop 1');
-	const [existingImages, setExistingImages] = useState(product.image || []); // State for existing images
-	const [newImages, setNewImages] = useState([]); // State for newly selected images
+	const [existingImages, setExistingImages] = useState(product.image || []);
+	const [newImages, setNewImages] = useState([]);
 	const [submitting, setSubmitting] = useState(false);
-	const [newCategoryName, setNewCategoryName] = useState(''); // State for new category input
 	const [options, setOptions] = useState(
 		product.options?.length ? product.options : []
 	);
+	const [categoryData, setCategoryData] = useState({
+		selectedCategories: product.categories || [],
+		newCategories: '',
+	});
+
 	if (!isOpen) return null;
-	// Function to add a new category to the global list and select it for the product
-	const handleAddNewCategory = async () => {
-		const trimmedCategoryName = newCategoryName.trim();
-		if (!trimmedCategoryName) {
-			toast.error('Category name cannot be empty.');
-			return;
-		}
-
-		// Prevent adding duplicate categories to the global list
-		if (
-			allCategories.some(
-				cat => cat.toLowerCase() === trimmedCategoryName.toLowerCase()
-			)
-		) {
-			toast.error('Category already exists globally.');
-			setNewCategoryName('');
-			return;
-		}
-
-		// Prevent adding duplicate categories to the product's selected list
-		if (
-			selectedCategories.some(
-				cat => cat.toLowerCase() === trimmedCategoryName.toLowerCase()
-			)
-		) {
-			toast.error('Category already selected for this product.');
-			setNewCategoryName('');
-			return;
-		}
-
-		try {
-			const token = await getToken();
-			const { data } = await axios.post(
-				'/api/category/add',
-				{ name: trimmedCategoryName },
-				{ headers: { Authorization: `Bearer ${token}` } }
-			);
-
-			if (data.success) {
-				toast.success(`Category '${trimmedCategoryName}' added.`);
-				// Update global categories in AppContext
-				setAllCategories(prev => [...prev, data.category.name]);
-				// Select the newly added category for the product
-				setSelectedCategories(prev => [...prev, data.category.name]);
-				setNewCategoryName('');
-			} else {
-				toast.error(data.message);
-			}
-		} catch (err) {
-			toast.error(err.message || 'Failed to add category.');
-		}
-	};
-
-	// Function to remove a category from the product's selected categories
-	const handleRemoveSelectedCategory = categoryToRemove => {
-		setSelectedCategories(prev => prev.filter(cat => cat !== categoryToRemove));
-	};
-
-	// Function to toggle selection of an existing category from the global list
-	const handleToggleExistingCategory = categoryToToggle => {
-		if (selectedCategories.includes(categoryToToggle)) {
-			handleRemoveSelectedCategory(categoryToToggle);
-		} else {
-			setSelectedCategories(prev => [...prev, categoryToToggle]);
-		}
-	};
 
 	const handleSubmit = async e => {
 		e.preventDefault();
@@ -102,8 +32,11 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 			formData.append('productId', product._id);
 			formData.append('name', name);
 			formData.append('description', description);
-			// Join selected categories into a comma-separated string for the backend
-			formData.append('categories', selectedCategories.join(','));
+			formData.append(
+				'selectedCategories',
+				JSON.stringify(categoryData.selectedCategories)
+			);
+			formData.append('newCategories', categoryData.newCategories);
 			formData.append('price', price);
 			formData.append('offerPrice', offerPrice);
 			formData.append('shop', shop);
@@ -177,64 +110,10 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 						<label className='block text-sm font-medium text-gray-700 mb-2'>
 							Categories
 						</label>
-						{/* Selected Categories Tags */}
-						<div className='flex flex-wrap gap-2 mb-3'>
-							{selectedCategories.map(cat => (
-								<span
-									key={cat}
-									className='flex items-center bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded-full'
-								>
-									{cat}
-									<button
-										type='button'
-										onClick={() => handleRemoveSelectedCategory(cat)}
-										className='ml-1 text-blue-800 hover:text-blue-900 focus:outline-none'
-									>
-										&times;
-									</button>
-								</span>
-							))}
-						</div>
-
-						{/* Add New Category Input */}
-						<div className='flex gap-2 mb-3'>
-							<input
-								type='text'
-								value={newCategoryName}
-								onChange={e => setNewCategoryName(e.target.value)}
-								onKeyPress={e => {
-									if (e.key === 'Enter') {
-										e.preventDefault(); // Prevent form submission
-										handleAddNewCategory();
-									}
-								}}
-								placeholder='Add new category'
-								className='border px-3 py-2 rounded w-full'
-							/>
-							<button
-								type='button'
-								onClick={handleAddNewCategory}
-								className='px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700'
-							>
-								Add
-							</button>
-						</div>
-
-						{/* Existing Categories as Clickable Buttons */}
-						<div className='flex flex-wrap gap-2'>
-							{allCategories
-								.filter(cat => !selectedCategories.includes(cat)) // Filter out already selected categories
-								.map(cat => (
-									<button
-										key={cat}
-										type='button'
-										onClick={() => handleToggleExistingCategory(cat)}
-										className='px-3 py-1 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 text-sm'
-									>
-										{cat}
-									</button>
-								))}
-						</div>
+						<CategoryManager
+							initialSelectedCategories={product.categories}
+							onChange={setCategoryData}
+						/>
 					</div>
 
 					<input

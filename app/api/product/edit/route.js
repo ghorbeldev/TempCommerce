@@ -35,7 +35,21 @@ export async function PUT(request) {
 
 		const name = formData.get('name');
 		const description = formData.get('description');
-		const categories = formData.get('categories');
+		const selectedCategories = JSON.parse(
+			formData.get('selectedCategories') || '[]'
+		);
+		const newCategories = formData.get('newCategories') || '';
+
+		const combinedCategories = [
+			...selectedCategories,
+			...newCategories.split(',').map(c => c.trim()),
+		];
+
+		const categories = [
+			...new Set(
+				combinedCategories.map(c => c.toLowerCase().trim()).filter(c => c)
+			),
+		];
 		const price = formData.get('price');
 		const offerPrice = formData.get('offerPrice');
 		const shop = formData.get('shop');
@@ -105,9 +119,7 @@ export async function PUT(request) {
 			{
 				...(name && { name }),
 				...(description && { description }),
-				...(categories && {
-					categories: categories.split(',').map(c => c.trim()),
-				}),
+				...(categories && { categories }),
 				...(price && { price: Number(price) }),
 				...(offerPrice && {
 					offerPrice:
