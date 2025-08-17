@@ -14,6 +14,7 @@ const Cart = () => {
 		addToCart,
 		updateCartQuantity,
 		getCartCount,
+		currency,
 	} = useAppContext();
 	console.log('cartItems', cartItems);
 	return (
@@ -88,7 +89,10 @@ const Cart = () => {
 												</div>
 											</td>
 											<td className='py-4 md:px-4 px-1 text-gray-600'>
-												${product.offerPrice}
+												{product.offerPrice}
+												<small className='text-sm text-gray-500 ml-1'>
+													<b className='text-main-color-900'>{currency}</b>
+												</small>
 											</td>
 											<td className='py-4 md:px-4 px-1'>
 												<div className='flex items-center md:gap-2 gap-1'>
@@ -127,7 +131,10 @@ const Cart = () => {
 												</div>
 											</td>
 											<td className='py-4 md:px-4 px-1 text-gray-600'>
-												${(product.offerPrice * cartItems[itemKey]).toFixed(2)}
+												{(product.offerPrice * cartItems[itemKey]).toFixed(2)}
+												<small className='text-sm text-gray-500 ml-1'>
+													<b className='text-main-color-900'>{currency}</b>
+												</small>
 											</td>
 										</tr>
 									);

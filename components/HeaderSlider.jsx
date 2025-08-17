@@ -153,7 +153,10 @@ export default function HeaderSlider() {
 
 										{product.price && (
 											<div className='bg-black/30 backdrop-blur-sm px-4 py-3 rounded-full border border-white/20 text-white font-bold text-lg flex items-center'>
-												${product.price.toFixed(2)}
+												{product.price.toFixed(2)}
+												<small className='text-sm text-gray-500 ml-1'>
+													<b className='text-main-color-900'>TND</b>
+												</small>
 											</div>
 										)}
 									</div>
