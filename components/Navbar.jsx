@@ -109,6 +109,14 @@ const Navbar = () => {
 				<button onClick={() => router.push('/my-orders')}>
 					<BagIcon />
 				</button>
+				{user && isSeller && (
+					<button
+						onClick={() => router.push('/seller')}
+						className='text-xs border px-3 py-1 rounded-full hover:bg-main-color-600 hover:text-white transition'
+					>
+						Seller
+					</button>
+				)}
 			</div>
 		</nav>
 	);
