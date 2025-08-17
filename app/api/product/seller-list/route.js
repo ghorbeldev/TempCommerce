@@ -19,11 +19,13 @@ export async function GET(request) {
 		const category = searchParams.get('category') || '';
 		const shop = searchParams.get('shop') || '';
 		const sort = searchParams.get('sort') || 'newest';
+		const page = parseInt(searchParams.get('page') || '1');
+		const limit = parseInt(searchParams.get('limit') || '10');
 
 		const query = { image: { $exists: true, $ne: [] } };
 
 		if (category) query.categories = category;
-		if (shop) query.shop = shop;
+		if (shop && shop !== 'All') query.shop = shop;
 		if (search) {
 			query.$or = [
 				{ name: { $regex: search, $options: 'i' } },
@@ -31,17 +33,29 @@ export async function GET(request) {
 			];
 		}
 
-		let products = await Product.find(query);
+		// Get total count
+		const totalProducts = await Product.countDocuments(query);
 
-		if (sort === 'newest') products = products.sort((a, b) => b.date - a.date);
-		else if (sort === 'oldest')
-			products = products.sort((a, b) => a.date - b.date);
-		else if (sort === 'lowprice')
-			products = products.sort((a, b) => a.offerPrice - b.offerPrice);
-		else if (sort === 'highprice')
-			products = products.sort((a, b) => b.offerPrice - a.offerPrice);
+		// Apply sorting
+		let sortOption = {};
+		if (sort === 'newest') sortOption = { date: -1 };
+		else if (sort === 'oldest') sortOption = { date: 1 };
+		else if (sort === 'lowprice') sortOption = { offerPrice: 1 };
+		else if (sort === 'highprice') sortOption = { offerPrice: -1 };
 
-		return NextResponse.json({ success: true, products });
+		const products = await Product.find(query)
+			.sort(sortOption)
+			.skip((page - 1) * limit)
+			.limit(limit);
+
+		const totalPages = Math.ceil(totalProducts / limit);
+
+		return NextResponse.json({
+			success: true,
+			products,
+			totalProducts,
+			totalPages,
+		});
 	} catch (error) {
 		console.log(error);
 		return NextResponse.json({ success: false, message: error.message });

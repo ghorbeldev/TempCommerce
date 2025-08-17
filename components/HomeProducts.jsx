@@ -6,8 +6,8 @@ const HomeProducts = () => {
 	const { products, router } = useAppContext();
 
 	// Filter products by shop
-	const shop1Products = products.filter(p => p.shop === 'Shop 1');
-	const shop2Products = products.filter(p => p.shop === 'Shop 2');
+	const shop1Products = products.filter(p => p.shop === 'Shop 1').slice(0, 10);
+	const shop2Products = products.filter(p => p.shop === 'Shop 2').slice(0, 10);
 
 	return (
 		<div className='flex flex-col items-center w-full px-4 md:px-16 pt-14 space-y-20'>

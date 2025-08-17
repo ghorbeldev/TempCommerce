@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { assets } from '@/assets/assets';
 import Image from 'next/image';
 import { useAppContext } from '@/context/AppContext';
@@ -14,6 +14,7 @@ const ProductList = () => {
 	const { router, getToken, user, allCategories, currency } = useAppContext();
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [fetching, setFetching] = useState(false);
 	const [deletingId, setDeletingId] = useState(null);
 	const [editingProduct, setEditingProduct] = useState(null);
 
@@ -22,34 +23,67 @@ const ProductList = () => {
 	const [selectedShop, setSelectedShop] = useState('All');
 	const [sortOrder, setSortOrder] = useState('newest');
 
+	const [currentPage, setCurrentPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(1);
+	const [totalProducts, setTotalProducts] = useState(0);
+	const productsPerPage = 10;
+
+	// Debounce search input
+	const debounceTimer = useRef(null);
+	const [debouncedSearch, setDebouncedSearch] = useState('');
+
+	useEffect(() => {
+		clearTimeout(debounceTimer.current);
+		debounceTimer.current = setTimeout(() => {
+			setDebouncedSearch(searchText);
+			setCurrentPage(1); // reset page on search
+		}, 500);
+	}, [searchText]);
+
 	const fetchSellerProduct = async () => {
 		try {
-			setLoading(true);
+			if (!products.length) setLoading(true);
+			else setFetching(true);
+
 			const token = await getToken();
 			const params = new URLSearchParams();
-			if (searchText) params.append('search', searchText);
+			if (debouncedSearch) params.append('search', debouncedSearch);
 			if (selectedCategory) params.append('category', selectedCategory);
 			if (selectedShop !== 'All') params.append('shop', selectedShop);
 			if (sortOrder) params.append('sort', sortOrder);
+			params.append('page', currentPage);
+			params.append('limit', productsPerPage);
 
 			const { data } = await axios.get(
 				`/api/product/seller-list?${params.toString()}`,
-				{
-					headers: { Authorization: `Bearer ${token}` },
-				}
+				{ headers: { Authorization: `Bearer ${token}` } }
 			);
-			if (data.success) setProducts(data.products);
-			else toast.error(data.message);
+
+			if (data.success) {
+				setProducts(data.products);
+				setTotalProducts(data.totalProducts);
+				setTotalPages(data.totalPages);
+			} else {
+				toast.error(data.message);
+			}
 		} catch (err) {
 			toast.error(err.message);
 		} finally {
 			setLoading(false);
+			setFetching(false);
 		}
 	};
 
 	useEffect(() => {
 		if (user) fetchSellerProduct();
-	}, [user, searchText, selectedCategory, selectedShop, sortOrder]);
+	}, [
+		user,
+		debouncedSearch,
+		selectedCategory,
+		selectedShop,
+		sortOrder,
+		currentPage,
+	]);
 
 	const handleRemove = async id => {
 		if (!confirm('Are you sure you want to remove this product?')) return;
@@ -62,15 +96,17 @@ const ProductList = () => {
 			});
 			if (data.success) {
 				toast.success(data.message);
-				setProducts(prev => prev.filter(p => p._id !== id));
-			} else {
-				toast.error(data.message);
-			}
-		} catch (error) {
-			toast.error(error.message);
+				fetchSellerProduct();
+			} else toast.error(data.message);
+		} catch (err) {
+			toast.error(err.message);
 		} finally {
 			setDeletingId(null);
 		}
+	};
+
+	const handlePageChange = page => {
+		if (page >= 1 && page <= totalPages) setCurrentPage(page);
 	};
 
 	return (
@@ -79,9 +115,15 @@ const ProductList = () => {
 				<Loading />
 			) : (
 				<div className='w-full p-4 md:p-10'>
-					<h2 className='text-2xl md:text-3xl font-semibold mb-6'>
+					<h2 className='text-2xl md:text-3xl font-semibold mb-2'>
 						All Products
 					</h2>
+					<p className='text-gray-500 mb-4'>
+						Total Products: <b>{totalProducts}</b>
+						{fetching && (
+							<span className='ml-2 text-gray-400'>(Loading...)</span>
+						)}
+					</p>
 
 					{/* Filters */}
 					<div className='flex flex-col md:flex-row gap-4 items-start md:items-center mb-6 flex-wrap'>
@@ -140,8 +182,8 @@ const ProductList = () => {
 								</tr>
 							</thead>
 							<tbody className='divide-y divide-gray-200'>
-								{products.map((product, index) => (
-									<tr key={index} className='hover:bg-gray-50'>
+								{products.map(product => (
+									<tr key={product._id} className='hover:bg-gray-50'>
 										<td className='px-4 py-3 flex items-center space-x-3'>
 											<div className='w-16 h-16 relative flex-shrink-0 rounded-md overflow-hidden bg-gray-200'>
 												{product.image[0]?.url && (
@@ -170,20 +212,13 @@ const ProductList = () => {
 												onClick={() => router.push(`/product/${product._id}`)}
 												className='flex items-center gap-1 px-2 py-1 bg-main-color-600 text-white rounded-md hover:bg-main-color-700'
 											>
-												<span className='hidden sm:block'>Visit</span>
-												<Image
-													src={assets.redirect_icon}
-													alt='visit'
-													width={16}
-													height={16}
-												/>
+												Visit
 											</button>
 											<button
 												onClick={() => setEditingProduct(product)}
 												className='px-2 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700'
 											>
-												{' '}
-												Edit{' '}
+												Edit
 											</button>
 											<button
 												onClick={() => handleRemove(product._id)}
@@ -201,12 +236,46 @@ const ProductList = () => {
 								))}
 							</tbody>
 						</table>
+
 						{products.length === 0 && (
 							<p className='text-gray-500 text-center mt-6'>
 								No products found.
 							</p>
 						)}
 					</div>
+
+					{/* Pagination */}
+					{totalPages > 1 && (
+						<div className='flex justify-center mt-6 space-x-2'>
+							<button
+								onClick={() => handlePageChange(currentPage - 1)}
+								disabled={currentPage === 1}
+								className='px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50'
+							>
+								Prev
+							</button>
+							{Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+								<button
+									key={page}
+									onClick={() => handlePageChange(page)}
+									className={`px-3 py-1 rounded hover:bg-gray-300 ${
+										currentPage === page
+											? 'bg-main-color-600 text-white'
+											: 'bg-gray-200'
+									}`}
+								>
+									{page}
+								</button>
+							))}
+							<button
+								onClick={() => handlePageChange(currentPage + 1)}
+								disabled={currentPage === totalPages}
+								className='px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50'
+							>
+								Next
+							</button>
+						</div>
+					)}
 				</div>
 			)}
 

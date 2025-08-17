@@ -9,7 +9,7 @@ export async function GET(request) {
 		const { searchParams } = new URL(request.url);
 
 		// Query params
-		const limit = parseInt(searchParams.get('limit')) || 100;
+		const limit = parseInt(searchParams.get('limit')) || 3;
 		const category = searchParams.get('category') || null;
 		const search = searchParams.get('search') || '';
 		const shop = searchParams.get('shop') || null;

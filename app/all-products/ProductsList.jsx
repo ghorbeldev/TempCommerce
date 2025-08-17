@@ -7,10 +7,11 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useAppContext } from '@/context/AppContext';
 
-const PRODUCTS_PER_PAGE = 30;
+const PRODUCTS_PER_PAGE = 10;
 
 const ProductsList = () => {
 	const { products, allCategories } = useAppContext();
+	console.log('Products:', products.length);
 	const searchParams = useSearchParams();
 	const router = useRouter();
 

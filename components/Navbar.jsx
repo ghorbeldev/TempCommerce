@@ -9,7 +9,6 @@ import { useClerk, UserButton } from '@clerk/nextjs';
 const Navbar = () => {
 	const { isSeller, router, user, cartItems } = useAppContext();
 	const { openSignIn } = useClerk();
-	const [showSearch, setShowSearch] = useState(false);
 
 	return (
 		<nav className='sticky top-0 z-50 bg-white shadow-sm border-b border-gray-200'>
@@ -43,6 +42,14 @@ const Navbar = () => {
 						Contact
 					</Link>
 
+					{/* Orders (always visible) */}
+					<Link
+						href='/my-orders'
+						className='hover:text-main-color-600 transition'
+					>
+						Orders
+					</Link>
+
 					{Boolean(user) && isSeller && (
 						<button
 							onClick={() => router.push('/seller')}
@@ -55,26 +62,6 @@ const Navbar = () => {
 
 				{/* Right Section */}
 				<div className='flex items-center gap-4 md:gap-6'>
-					{/* Search */}
-					<div className='relative hidden md:block'>
-						{showSearch ? (
-							<input
-								type='text'
-								placeholder='Search...'
-								className='border rounded-full px-3 py-1 w-40 md:w-56 outline-none transition'
-								onBlur={() => setShowSearch(false)}
-								autoFocus
-							/>
-						) : (
-							<Image
-								className='w-5 h-5 cursor-pointer'
-								src={assets.search_icon}
-								alt='search'
-								onClick={() => setShowSearch(true)}
-							/>
-						)}
-					</div>
-
 					{/* Cart */}
 					{user && (
 						<button onClick={() => router.push('/cart')} className='relative'>
@@ -118,7 +105,8 @@ const Navbar = () => {
 						</span>
 					)}
 				</button>
-				<button onClick={user ? () => router.push('/my-orders') : openSignIn}>
+				{/* Orders always visible */}
+				<button onClick={() => router.push('/my-orders')}>
 					<BagIcon />
 				</button>
 			</div>
