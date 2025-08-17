@@ -1,56 +1,110 @@
-import React from "react";
-import { assets } from "@/assets/assets";
-import Image from "next/image";
+import React from 'react';
+import { assets } from '@/assets/assets';
+import Image from 'next/image';
+import { FaFacebookF, FaInstagram, FaTwitter, FaTiktok } from 'react-icons/fa';
 
 const Footer = () => {
-  return (
-    <footer>
-      <div className="flex flex-col md:flex-row items-start justify-center px-6 md:px-16 lg:px-32 gap-10 py-14 border-b border-gray-500/30 text-gray-500">
-        <div className="w-4/5">
-          <Image className="w-28 md:w-32" src={assets.logo} alt="logo" />
-          <p className="mt-6 text-sm">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book.
-          </p>
-        </div>
+	return (
+		<footer className='bg-gray-50 border-t border-gray-200 mt-12'>
+			<div className='px-6 md:px-16 lg:px-32 py-14 grid grid-cols-1 md:grid-cols-3 gap-10 text-gray-600'>
+				{/* Brand Info */}
+				<div>
+					<Image className='w-32 mb-6' src={assets.logo} alt='Tunimode Logo' />
+					<p className='text-sm leading-6'>
+						Tunimode is your destination for trendy fashion in Tunisia. Discover
+						the latest collections for men, women, and kids – quality and style
+						at the best prices.
+					</p>
+					<div className='flex gap-4 mt-6'>
+						<a
+							href='#'
+							aria-label='Instagram'
+							className='p-2 bg-gray-200 rounded-full hover:bg-main-color-600 hover:text-white transition'
+						>
+							<FaInstagram size={16} />
+						</a>
+						<a
+							href='#'
+							aria-label='Facebook'
+							className='p-2 bg-gray-200 rounded-full hover:bg-main-color-600 hover:text-white transition'
+						>
+							<FaFacebookF size={16} />
+						</a>
+						<a
+							href='#'
+							aria-label='Twitter'
+							className='p-2 bg-gray-200 rounded-full hover:bg-main-color-600 hover:text-white transition'
+						>
+							<FaTwitter size={16} />
+						</a>
+						<a
+							href='#'
+							aria-label='TikTok'
+							className='p-2 bg-gray-200 rounded-full hover:bg-main-color-600 hover:text-white transition'
+						>
+							<FaTiktok size={16} />
+						</a>
+					</div>
+				</div>
 
-        <div className="w-1/2 flex items-center justify-start md:justify-center">
-          <div>
-            <h2 className="font-medium text-gray-900 mb-5">Company</h2>
-            <ul className="text-sm space-y-2">
-              <li>
-                <a className="hover:underline transition" href="#">Home</a>
-              </li>
-              <li>
-                <a className="hover:underline transition" href="#">About us</a>
-              </li>
-              <li>
-                <a className="hover:underline transition" href="#">Contact us</a>
-              </li>
-              <li>
-                <a className="hover:underline transition" href="#">Privacy policy</a>
-              </li>
-            </ul>
-          </div>
-        </div>
+				{/* Links */}
+				<div>
+					<h2 className='font-semibold text-gray-900 mb-5'>Quick Links</h2>
+					<ul className='text-sm space-y-3'>
+						<li>
+							<a className='hover:text-main-color-600 transition' href='/'>
+								Home
+							</a>
+						</li>
+						<li>
+							<a className='hover:text-main-color-600 transition' href='/about'>
+								About Us
+							</a>
+						</li>
+						<li>
+							<a
+								className='hover:text-main-color-600 transition'
+								href='/product-list'
+							>
+								Shop
+							</a>
+						</li>
+						<li>
+							<a
+								className='hover:text-main-color-600 transition'
+								href='/contact'
+							>
+								Contact
+							</a>
+						</li>
+						<li>
+							<a
+								className='hover:text-main-color-600 transition'
+								href='/privacy-policy'
+							>
+								Privacy Policy
+							</a>
+						</li>
+					</ul>
+				</div>
 
-        <div className="w-1/2 flex items-start justify-start md:justify-center">
-          <div>
-            <h2 className="font-medium text-gray-900 mb-5">Get in touch</h2>
-            <div className="text-sm space-y-2">
-              <p>+1-234-567-890</p>
-              <p>contact@greatstack.dev</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <p className="py-4 text-center text-xs md:text-sm">
-        Copyright 2025 © GreatStack.dev All Right Reserved.
-      </p>
-    </footer>
-  );
+				{/* Contact */}
+				<div>
+					<h2 className='font-semibold text-gray-900 mb-5'>Get in Touch</h2>
+					<ul className='text-sm space-y-3'>
+						<li>📍 Tunis, Tunisia</li>
+						<li>📞 +216 12 345 678</li>
+						<li>📧 support@tunimode.com</li>
+					</ul>
+				</div>
+			</div>
+
+			{/* Bottom Bar */}
+			<div className='border-t border-gray-200 py-4 text-center text-xs md:text-sm text-gray-500'>
+				© {new Date().getFullYear()} Tunimode. All Rights Reserved.
+			</div>
+		</footer>
+	);
 };
 
 export default Footer;

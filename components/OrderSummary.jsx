@@ -21,10 +21,7 @@ const OrderSummary = () => {
 
 	const fetchUserAddresses = async () => {
 		try {
-			console.log('work');
-
 			const token = await getToken();
-			console.log('work');
 
 			const { data } = await axios.get('/api/user/get-address', {
 				headers: { Authorization: `Bearer ${token}` },
@@ -56,10 +53,13 @@ const OrderSummary = () => {
 			}
 			const token = await getToken();
 
-			let cartItemsArray = Object.keys(cartItems).map(key => {
+			let cartItemsArray = Object.keys(cartItems).map(itemKey => {
+				let itemId = JSON.parse(itemKey)['itemId'];
+				let selectedOptions = JSON.parse(itemKey)['selectedOptions'];
 				return {
-					product: key,
-					quantity: cartItems[key],
+					product: itemId,
+					quantity: cartItems[itemKey],
+					selectedOptions: selectedOptions || [],
 				};
 			});
 			cartItemsArray = cartItemsArray.filter(item => item.quantity > 0);
@@ -169,7 +169,7 @@ const OrderSummary = () => {
 							placeholder='Enter promo code'
 							className='flex-grow w-full outline-none p-2.5 text-gray-600 border'
 						/>
-						<button className='bg-orange-600 text-white px-9 py-2 hover:bg-orange-700'>
+						<button className='bg-main-color-600 text-white px-9 py-2 hover:bg-main-color-700'>
 							Apply
 						</button>
 					</div>
@@ -181,8 +181,10 @@ const OrderSummary = () => {
 					<div className='flex justify-between text-base font-medium'>
 						<p className='uppercase text-gray-600'>Items {getCartCount()}</p>
 						<p className='text-gray-800'>
-							{currency}
 							{getCartAmount()}
+							<small className='text-sm text-gray-500'>
+								<b className='font-bold text-main-color-900'>{currency}</b>
+							</small>
 						</p>
 					</div>
 					<div className='flex justify-between'>
@@ -199,8 +201,10 @@ const OrderSummary = () => {
 					<div className='flex justify-between text-lg md:text-xl font-medium border-t pt-3'>
 						<p>Total</p>
 						<p>
-							{currency}
 							{getCartAmount() + Math.floor(getCartAmount() * 0.02)}
+							<small className='text-sm text-gray-500'>
+								<b className='font-bold text-main-color-900'>{currency}</b>
+							</small>
 						</p>
 					</div>
 				</div>
@@ -208,7 +212,7 @@ const OrderSummary = () => {
 
 			<button
 				onClick={createOrder}
-				className='w-full bg-orange-600 text-white py-3 mt-5 hover:bg-orange-700'
+				className='w-full bg-main-color-600 text-white py-3 mt-5 hover:bg-main-color-700'
 			>
 				Place Order
 			</button>

@@ -26,10 +26,12 @@ export async function POST(request) {
 
 		const name = formData.get('name');
 		const description = formData.get('description');
-		const category = formData.get('category');
+		const categories = formData.get('categories');
 		const price = formData.get('price');
 		const offerPrice = formData.get('offerPrice');
-
+		const shop = formData.get('shop');
+		const options = formData.get('options'); // Get options data
+		const parsedOptions = options ? JSON.parse(options) : [];
 		const files = formData.getAll('images');
 
 		if (!files || files.length === 0) {
@@ -61,19 +63,26 @@ export async function POST(request) {
 			})
 		);
 
-		const image = result.map(result => result.secure_url);
+		const images = result.map(file => ({
+			url: file.secure_url,
+			public_id: file.public_id,
+		}));
 
 		await connectDB();
-		console.log(result);
-		console.log(image);
+
 		const newProduct = await Product.create({
 			userId,
 			name,
 			description,
 			price: Number(price),
-			offerPrice: Number(offerPrice),
-			category,
-			image,
+			offerPrice:
+				Number(offerPrice) > 0 && Number(offerPrice) < Number(price)
+					? Number(offerPrice)
+					: Number(price),
+			categories: categories.split(',').map(item => item.trim()),
+			image: images,
+			shop,
+			options: parsedOptions,
 			date: Date.now(),
 		});
 

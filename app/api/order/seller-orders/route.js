@@ -17,7 +17,22 @@ export async function GET(request) {
 		}
 		await connectDB();
 		Address.length;
-		const orders = await Order.find({}).populate('address items.product');
+
+		const { searchParams } = new URL(request.url);
+		const sortBy = searchParams.get('sortBy') || 'newest';
+
+		let sortOptions = {};
+		if (sortBy === 'newest') {
+			sortOptions = { createdAt: -1 };
+		} else if (sortBy === 'oldest') {
+			sortOptions = { createdAt: 1 };
+		} else if (sortBy === 'recentlyUpdated') {
+			sortOptions = { updatedAt: -1 };
+		}
+
+		const orders = await Order.find({})
+			.populate('address items.product')
+			.sort(sortOptions);
 
 		return NextResponse.json({
 			success: true,
