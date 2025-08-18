@@ -16,6 +16,7 @@ const Product = () => {
 	const [mainImage, setMainImage] = useState(null);
 	const [productData, setProductData] = useState(null);
 	const [selectedOptions, setSelectedOptions] = useState({});
+	const [loading, setLoading] = useState(false); // <-- main product buttons loading
 
 	const fetchProductData = async () => {
 		const product = products.find(product => product._id === id);
@@ -45,13 +46,29 @@ const Product = () => {
 		}));
 	};
 
-	const handleAddToCart = () => {
-		addToCart(productData._id, selectedOptions);
+	const handleAddToCart = async () => {
+		if (productData.quantity === 0 || loading) return;
+		setLoading(true);
+		try {
+			await addToCart(productData._id, selectedOptions);
+		} catch (err) {
+			console.error(err);
+		} finally {
+			setLoading(false);
+		}
 	};
 
-	const handleBuyNow = () => {
-		addToCart(productData._id, selectedOptions);
-		router.push('/cart');
+	const handleBuyNow = async () => {
+		if (productData.quantity === 0 || loading) return;
+		setLoading(true);
+		try {
+			await addToCart(productData._id, selectedOptions);
+			router.push('/cart');
+		} catch (err) {
+			console.error(err);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	if (!productData) return <Loading />;
@@ -177,27 +194,29 @@ const Product = () => {
 						<div className='flex flex-col md:flex-row gap-3 mt-6 sticky md:static bottom-4 md:bottom-auto bg-white md:bg-transparent p-4 md:p-0'>
 							<button
 								onClick={handleAddToCart}
-								disabled={productData.quantity === 0}
+								disabled={productData.quantity === 0 || loading}
 								className={`w-full md:w-1/2 py-3.5 transition rounded-md ${
-									productData.quantity === 0
+									productData.quantity === 0 || loading
 										? 'bg-gray-200 text-gray-500 cursor-not-allowed'
 										: 'bg-gray-100 text-gray-800 hover:bg-gray-200'
 								}`}
 							>
-								{productData.quantity === 0
+								{loading
+									? 'Ajout en cours...'
+									: productData.quantity === 0
 									? 'En rupture de stock'
 									: 'Ajouter au panier'}
 							</button>
 							<button
 								onClick={handleBuyNow}
-								disabled={productData.quantity === 0}
+								disabled={productData.quantity === 0 || loading}
 								className={`w-full md:w-1/2 py-3.5 transition rounded-md ${
-									productData.quantity === 0
+									productData.quantity === 0 || loading
 										? 'bg-gray-200 text-gray-500 cursor-not-allowed'
 										: 'bg-main-color-500 text-white hover:bg-main-color-600'
 								}`}
 							>
-								Acheter maintenant
+								{loading ? 'Traitement...' : 'Acheter maintenant'}
 							</button>
 						</div>
 					</div>

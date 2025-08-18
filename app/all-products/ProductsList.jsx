@@ -11,7 +11,6 @@ const PRODUCTS_PER_PAGE = 10;
 
 const ProductsList = () => {
 	const { products, allCategories } = useAppContext();
-	console.log('Products:', products.length);
 	const searchParams = useSearchParams();
 	const router = useRouter();
 
@@ -27,11 +26,6 @@ const ProductsList = () => {
 		if (categoryFromUrl) setSelectedCategory(categoryFromUrl);
 		if (shopFromUrl) setSelectedShop(shopFromUrl);
 	}, [searchParams]);
-
-	// Filtered products
-	console.log(
-		products.filter(product => product._id === '68a3351fe969c1613fd28ac6')
-	);
 
 	const filteredProducts = useMemo(() => {
 		return products.filter(product => {

@@ -22,8 +22,12 @@ const AddProduct = () => {
 		newCategories: '',
 	});
 
+	const [loading, setLoading] = useState(false);
+
 	const handleSubmit = async e => {
 		e.preventDefault();
+		setLoading(true); // disable button
+
 		const formData = new FormData();
 		formData.append('name', name);
 		formData.append('description', description);
@@ -34,7 +38,7 @@ const AddProduct = () => {
 		formData.append('newCategories', categoryData.newCategories);
 		formData.append('price', price);
 		formData.append('offerPrice', offerPrice);
-		formData.append('quantity', quantity); // Append quantity
+		formData.append('quantity', quantity);
 		formData.append('shop', shop);
 		formData.append('options', JSON.stringify(options));
 		files.forEach(file => formData.append('images', file));
@@ -46,21 +50,23 @@ const AddProduct = () => {
 			});
 			if (data.success) {
 				toast.success(data.message);
+				// reset form
 				setFiles([]);
 				setName('');
 				setDescription('');
 				setCategoryData({ selectedCategories: [], newCategories: '' });
 				setPrice('');
 				setOfferPrice('');
-				setQuantity(0); // Reset quantity
+				setQuantity(0);
 				setShop('Prêt à Porter');
 				setOptions([]);
 			} else toast.error(data.message);
 		} catch (err) {
 			toast.error(err.message);
+		} finally {
+			setLoading(false); // re-enable button
 		}
 	};
-
 	return (
 		<div className='flex-1 min-h-screen flex flex-col justify-between bg-gray-50'>
 			<form
@@ -266,8 +272,9 @@ const AddProduct = () => {
 				<button
 					type='submit'
 					className='px-6 py-2.5 bg-main-color-600 text-white font-medium rounded hover:bg-main-color-700 w-fit'
+					disabled={loading} // disable while submitting
 				>
-					Ajouter un produit
+					{loading ? 'Ajout en cours...' : 'Ajouter un produit'}
 				</button>
 			</form>
 		</div>

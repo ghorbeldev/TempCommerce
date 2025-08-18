@@ -5,11 +5,9 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request) {
 	try {
-		console.log('work here');
 		const { userId } = getAuth(request);
 		const { cartData } = await request.json();
 		await connectDB();
-		console.log(cartData);
 
 		const user = await User.findById(userId);
 		user.cartItems = cartData;

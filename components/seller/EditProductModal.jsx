@@ -145,7 +145,7 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 							type='number'
 							value={offerPrice}
 							onChange={e => setOfferPrice(e.target.value)}
-							placeholder='Prix de l\'offre'
+							placeholder="Prix de l\'offre"
 							className='border px-3 py-2 rounded w-full'
 						/>
 					</div>

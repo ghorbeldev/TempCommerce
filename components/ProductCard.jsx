@@ -1,24 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { assets } from '@/assets/assets';
 import Image from 'next/image';
 import { useAppContext } from '@/context/AppContext';
 
 const ProductCard = ({ product }) => {
 	const { currency, router, addToCart } = useAppContext();
-	console.log(product);
+	const [loading, setLoading] = useState(false); // new state
 	const isOutOfStock = product.quantity === 0;
 
 	const handleClick = e => {
 		if (isOutOfStock) {
-			e.preventDefault(); // Prevent navigation if out of stock
+			e.preventDefault();
 			return;
 		}
 		router.push('/product/' + product._id);
 		window.scrollTo(0, 0);
 	};
 
-	const handleAddToCart = () => {
-		addToCart(product._id, {});
+	const handleAddToCart = async e => {
+		e.stopPropagation(); // prevent card click
+		if (isOutOfStock || loading) return; // block if out of stock or loading
+		setLoading(true);
+		try {
+			await addToCart(product._id, {});
+		} catch (err) {
+			console.error(err);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -44,13 +53,20 @@ const ProductCard = ({ product }) => {
 						</span>
 					</div>
 				)}
-				{/* Wishlist Button */}
-				<button className='absolute top-2 right-2 bg-white p-2 rounded-full shadow-md hover:bg-main-color-100 transition'>
+				{/* Wishlist / Add to Cart Button */}
+				<button
+					className={`absolute top-2 right-2 p-2 rounded-full shadow-md transition ${
+						isOutOfStock || loading
+							? 'bg-gray-200 cursor-not-allowed'
+							: 'bg-white hover:bg-main-color-100'
+					}`}
+					onClick={handleAddToCart}
+					disabled={isOutOfStock || loading}
+				>
 					<Image
 						className='h-4 w-4'
 						src={assets.heart_icon}
 						alt='icône de cœur'
-						onClick={handleAddToCart}
 					/>
 				</button>
 			</div>
@@ -60,22 +76,16 @@ const ProductCard = ({ product }) => {
 				<p className='text-sm md:text-base font-semibold truncate'>
 					{product.name}
 				</p>
-
-				{/* Shop Name */}
 				{product.shop && (
 					<p className='text-xs text-main-color-600 font-medium truncate'>
 						{product.shop}
 					</p>
 				)}
-
-				{/* Categories */}
 				{product.categories?.length > 0 && (
 					<p className='text-xs text-gray-500/80 truncate'>
 						{product.categories.join(', ')}
 					</p>
 				)}
-
-				{/* Price */}
 				<p className='text-base font-bold mt-1'>
 					{product.offerPrice > 0 ? product.offerPrice : product.price}
 					<small className='text-sm text-gray-500 ml-1'>
@@ -87,14 +97,14 @@ const ProductCard = ({ product }) => {
 			{/* Buy Now Button */}
 			<button
 				onClick={handleClick}
-				disabled={isOutOfStock}
+				disabled={isOutOfStock || loading}
 				className={`mt-2 w-full px-4 py-2 text-xs text-gray-700 border border-gray-300 rounded-full transition ${
-					isOutOfStock
+					isOutOfStock || loading
 						? 'bg-gray-200 cursor-not-allowed'
 						: 'hover:bg-main-color-100'
 				}`}
 			>
-				Voir le produit
+				{loading ? 'Ajout en cours...' : 'Voir le produit'}
 			</button>
 		</div>
 	);
