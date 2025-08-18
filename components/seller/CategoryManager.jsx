@@ -42,7 +42,7 @@ const CategoryManager = ({ onChange, initialSelectedCategories = [] }) => {
 		<div className='space-y-4'>
 			<div>
 				<label className='block text-sm font-medium text-gray-700'>
-					Existing Categories
+					Catégories existantes
 				</label>
 				<Select
 					isMulti
@@ -55,7 +55,7 @@ const CategoryManager = ({ onChange, initialSelectedCategories = [] }) => {
 			</div>
 			<div>
 				<label className='block text-sm font-medium text-gray-700'>
-					New Categories (comma-separated)
+					Nouvelles catégories (séparées par des virgules)
 				</label>
 				<input
 					type='text'

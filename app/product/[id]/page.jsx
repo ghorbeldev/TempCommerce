@@ -105,7 +105,7 @@ const Product = () => {
 								{productData.name}
 							</h1>
 							<p className='text-gray-500 text-sm md:text-base'>
-								Sold by{' '}
+								Vendu par{' '}
 								<span className='font-medium text-main-color-600'>
 									{productData.shop}
 								</span>
@@ -184,7 +184,9 @@ const Product = () => {
 										: 'bg-gray-100 text-gray-800 hover:bg-gray-200'
 								}`}
 							>
-								{productData.quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
+								{productData.quantity === 0
+									? 'En rupture de stock'
+									: 'Ajouter au panier'}
 							</button>
 							<button
 								onClick={handleBuyNow}
@@ -195,7 +197,7 @@ const Product = () => {
 										: 'bg-main-color-500 text-white hover:bg-main-color-600'
 								}`}
 							>
-								Buy Now
+								Acheter maintenant
 							</button>
 						</div>
 					</div>
@@ -205,10 +207,8 @@ const Product = () => {
 				<div className='mt-16'>
 					<div className='flex flex-col items-center mb-6'>
 						<p className='text-3xl font-medium text-gray-800'>
-							Featured{' '}
-							<span className='text-main-color-600'>
-								{productData.shop} Products
-							</span>
+							Produits phares de{' '}
+							<span className='text-main-color-600'>{productData.shop}</span>
 						</p>
 						<div className='w-28 h-0.5 bg-main-color-600 mt-2'></div>
 					</div>
@@ -219,7 +219,7 @@ const Product = () => {
 							))
 						) : (
 							<p className='text-gray-500 col-span-full text-center'>
-								No other products from this shop.
+								Aucun autre produit de cette boutique.
 							</p>
 						)}
 					</div>
@@ -230,7 +230,7 @@ const Product = () => {
 					<div className='mt-16'>
 						<div className='flex flex-col items-center mb-6'>
 							<p className='text-2xl font-medium text-gray-800'>
-								You might also like
+								Vous pourriez aussi aimer
 							</p>
 							<div className='w-24 h-0.5 bg-main-color-600 mt-2'></div>
 						</div>

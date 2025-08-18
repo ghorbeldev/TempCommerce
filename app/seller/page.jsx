@@ -69,7 +69,7 @@ const AddProduct = () => {
 			>
 				{/* Images */}
 				<div>
-					<p className='text-lg font-medium mb-2'>Product Images</p>
+					<p className='text-lg font-medium mb-2'>Images du produit</p>
 					<div className='flex flex-wrap gap-3'>
 						{[...Array(4)].map((_, i) => (
 							<label key={i} className='w-24 h-24 relative cursor-pointer'>
@@ -101,7 +101,7 @@ const AddProduct = () => {
 				<div className='flex flex-col gap-3'>
 					<input
 						type='text'
-						placeholder='Product Name'
+						placeholder='Nom du produit'
 						className='border px-3 py-2 rounded w-full'
 						value={name}
 						onChange={e => setName(e.target.value)}
@@ -109,7 +109,7 @@ const AddProduct = () => {
 					/>
 					<textarea
 						rows={4}
-						placeholder='Product Description'
+						placeholder='Description du produit'
 						className='border px-3 py-2 rounded w-full resize-none'
 						value={description}
 						onChange={e => setDescription(e.target.value)}
@@ -119,7 +119,7 @@ const AddProduct = () => {
 
 				{/* Shop Selector */}
 				<div className='flex flex-col gap-2'>
-					<p className='text-base font-medium'>Shop</p>
+					<p className='text-base font-medium'>Boutique</p>
 					<select
 						value={shop}
 						onChange={e => setShop(e.target.value)}
@@ -132,21 +132,21 @@ const AddProduct = () => {
 
 				{/* Categories */}
 				<div className='flex flex-col gap-2'>
-					<p className='text-base font-medium'>Categories</p>
+					<p className='text-base font-medium'>Catégories</p>
 					<CategoryManager onChange={setCategoryData} />
 				</div>
 
 				{/* Product Options */}
 				<div className='border p-3 rounded flex flex-col gap-3'>
 					<p className='text-base font-medium'>
-						Product Options (e.g., Size, Color)
+						Options du produit (ex: Taille, Couleur)
 					</p>
 					{options.map((option, i) => (
 						<div key={i} className='flex flex-col gap-2 border p-2 rounded'>
 							<div className='flex gap-2 items-center'>
 								<input
 									type='text'
-									placeholder='Option Name'
+									placeholder="Nom de l'option"
 									value={option.name}
 									onChange={e => {
 										const newOptions = [...options];
@@ -162,7 +162,7 @@ const AddProduct = () => {
 									}
 									className='px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700'
 								>
-									Remove
+									Supprimer
 								</button>
 							</div>
 							<div className='flex flex-wrap gap-2'>
@@ -188,7 +188,7 @@ const AddProduct = () => {
 								))}
 								<input
 									type='text'
-									placeholder='Add value (comma-separated)'
+									placeholder='Ajouter une valeur (séparée par des virgules)'
 									className='border px-3 py-1 rounded flex-grow'
 									onKeyPress={e => {
 										if (e.key === 'Enter') {
@@ -224,14 +224,14 @@ const AddProduct = () => {
 						}
 						className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mt-2'
 					>
-						Add New Option
+						Ajouter une nouvelle option
 					</button>
 				</div>
 
 				{/* Price & Offer */}
 				<div className='flex flex-wrap gap-4'>
 					<div className='flex flex-col gap-1 w-40'>
-						<label className='text-base font-medium'>Price</label>
+						<label className='text-base font-medium'>Prix</label>
 						<input
 							type='number'
 							value={price}
@@ -241,7 +241,7 @@ const AddProduct = () => {
 						/>
 					</div>
 					<div className='flex flex-col gap-1 w-40'>
-						<label className='text-base font-medium'>Offer Price</label>
+						<label className='text-base font-medium'>Prix de l'offre</label>
 						<input
 							type='number'
 							value={offerPrice}
@@ -251,7 +251,7 @@ const AddProduct = () => {
 						/>
 					</div>
 					<div className='flex flex-col gap-1 w-40'>
-						<label className='text-base font-medium'>Quantity</label>
+						<label className='text-base font-medium'>Quantité</label>
 						<input
 							type='number'
 							value={quantity}
@@ -267,7 +267,7 @@ const AddProduct = () => {
 					type='submit'
 					className='px-6 py-2.5 bg-main-color-600 text-white font-medium rounded hover:bg-main-color-700 w-fit'
 				>
-					Add Product
+					Ajouter un produit
 				</button>
 			</form>
 		</div>

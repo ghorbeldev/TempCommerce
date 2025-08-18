@@ -9,22 +9,22 @@ const categories = [
 		id: 1,
 		key: 'kids',
 		image: assets.girl_with_headphone_image, // replace with your image
-		title: 'Kids',
-		description: 'Find the best products for kids.',
+		title: 'Enfants',
+		description: 'Trouvez les meilleurs produits pour enfants.',
 	},
 	{
 		id: 2,
 		key: 'women',
 		image: assets.girl_with_earphone_image, // replace with your image
-		title: 'Women',
-		description: 'Discover the latest for women.',
+		title: 'Femmes',
+		description: 'Découvrez les dernières nouveautés pour femmes.',
 	},
 	{
 		id: 3,
 		key: 'men',
 		image: assets.boy_with_laptop_image, // replace with your image
-		title: 'Men',
-		description: 'Explore top products for men.',
+		title: 'Hommes',
+		description: 'Explorez les meilleurs produits pour hommes.',
 	},
 ];
 
@@ -39,7 +39,7 @@ const FeaturedCategories = () => {
 	return (
 		<div className='mt-14'>
 			<div className='flex flex-col items-center'>
-				<p className='text-3xl font-medium'>Shop by Category</p>
+				<p className='text-3xl font-medium'>Acheter par catégorie</p>
 				<div className='w-28 h-0.5 bg-main-color-600 mt-2'></div>
 			</div>
 
@@ -60,11 +60,11 @@ const FeaturedCategories = () => {
 								onClick={() => handleClick(key)}
 								className='flex items-center gap-1.5 bg-main-color-600 px-4 py-2 rounded'
 							>
-								Shop {title}{' '}
+								Acheter {title}{' '}
 								<Image
 									className='h-3 w-3'
 									src={assets.redirect_icon}
-									alt='Redirect Icon'
+									alt='Icône de redirection'
 								/>
 							</button>
 						</div>

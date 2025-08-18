@@ -107,11 +107,11 @@ const Orders = () => {
 				<div className='max-w-7xl mx-auto'>
 					<div className='flex flex-col md:flex-row justify-between items-center mb-6 gap-4'>
 						<h1 className='text-2xl sm:text-3xl font-bold text-gray-800'>
-							Manage Orders
+							Gérer les commandes
 						</h1>
 						<div className='flex items-center gap-4'>
 							<label htmlFor='sort-orders' className='text-sm font-medium'>
-								Sort by:
+								Trier par:
 							</label>
 							<select
 								id='sort-orders'
@@ -119,9 +119,9 @@ const Orders = () => {
 								onChange={e => setSortBy(e.target.value)}
 								className='p-2 border rounded-md text-sm'
 							>
-								<option value='newest'>Newest</option>
-								<option value='oldest'>Oldest</option>
-								<option value='recentlyUpdated'>Recently Updated</option>
+								<option value='newest'>Les plus récentes</option>
+								<option value='oldest'>Les plus anciennes</option>
+								<option value='recentlyUpdated'>Récemment mis à jour</option>
 							</select>
 						</div>
 					</div>
@@ -135,19 +135,19 @@ const Orders = () => {
 									<thead className='bg-gray-50'>
 										<tr>
 											<th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
-												Order ID
+												ID de commande
 											</th>
 											<th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
-												Customer
+												Client
 											</th>
 											<th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
-												Amount
+												Montant
 											</th>
 											<th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
 												Date
 											</th>
 											<th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
-												State
+												État
 											</th>
 											<th className='px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider'>
 												Actions
@@ -184,14 +184,14 @@ const Orders = () => {
 														<button
 															onClick={() => setSelectedOrder(order)}
 															className='text-blue-600 hover:text-blue-800'
-															title='View Details'
+															title='Voir les détails'
 														>
 															<Eye size={18} />
 														</button>
 														<button
 															onClick={() => handleDeleteOrder(order._id)}
 															className='text-red-600 hover:text-red-800'
-															title='Delete Order'
+															title='Supprimer la commande'
 														>
 															<Trash2 size={18} />
 														</button>

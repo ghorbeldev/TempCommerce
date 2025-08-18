@@ -17,13 +17,13 @@ const HomeProducts = () => {
 			<div className='w-full'>
 				<div className='flex flex-col md:flex-row items-center justify-between mb-6'>
 					<h2 className='text-3xl font-bold text-main-color-600'>
-						Prêt à Porter Products
+						Produits Prêt à Porter
 					</h2>
 					<button
 						onClick={() => router.push('/all-products?shop=Prêt à Porter')}
 						className='mt-4 md:mt-0 px-6 py-2 bg-main-color-500 text-white rounded-lg hover:bg-main-color-600 transition'
 					>
-						View All
+						Voir tout
 					</button>
 				</div>
 				<div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6'>
@@ -33,7 +33,7 @@ const HomeProducts = () => {
 						))
 					) : (
 						<p className='text-gray-500 col-span-full text-center'>
-							No products available.
+							Aucun produit disponible.
 						</p>
 					)}
 				</div>
@@ -43,13 +43,13 @@ const HomeProducts = () => {
 			<div className='w-full'>
 				<div className='flex flex-col md:flex-row items-center justify-between mb-6'>
 					<h2 className='text-3xl font-bold text-main-color-600'>
-						Fripe Products
+						Produits Fripe
 					</h2>
 					<button
 						onClick={() => router.push('/all-products?shop=Fripe')}
 						className='mt-4 md:mt-0 px-6 py-2 bg-main-color-500 text-white rounded-lg hover:bg-main-color-600 transition'
 					>
-						View All
+						Voir tout
 					</button>
 				</div>
 				<div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6'>
@@ -59,7 +59,7 @@ const HomeProducts = () => {
 						))
 					) : (
 						<p className='text-gray-500 col-span-full text-center'>
-							No products available.
+							Aucun produit disponible.
 						</p>
 					)}
 				</div>
@@ -71,7 +71,7 @@ const HomeProducts = () => {
 					onClick={() => router.push('/all-products')}
 					className='px-12 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition'
 				>
-					See More Products
+					Voir plus de produits
 				</button>
 			</div>
 		</div>

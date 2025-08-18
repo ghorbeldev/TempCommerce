@@ -10,24 +10,25 @@ const Footer = () => {
 				<div className='flex-1'>
 					<Image className='w-32 mb-4' src={assets.logo} alt='Tunimode logo' />
 					<p className='text-gray-500 text-sm md:text-base max-w-xs'>
-						Tunimode is your go-to online shop for latest fashion trends. We
-						provide quality products from trusted sellers to make your shopping
-						experience easy and enjoyable.
+						Tunimode est votre boutique en ligne incontournable pour les
+						dernières tendances de la mode. Nous proposons des produits de
+						qualité provenant de vendeurs de confiance pour rendre votre
+						expérience d'achat facile et agréable.
 					</p>
 				</div>
 
 				{/* Company Links */}
 				<div className='flex-1'>
-					<h3 className='font-medium text-gray-900 mb-4'>Company</h3>
+					<h3 className='font-medium text-gray-900 mb-4'>Entreprise</h3>
 					<ul className='text-gray-500 space-y-2 text-sm'>
 						<li>
 							<a href='/' className='hover:text-main-color-600 transition'>
-								Home
+								Accueil
 							</a>
 						</li>
 						<li>
 							<a href='/about' className='hover:text-main-color-600 transition'>
-								About Us
+								À propos de nous
 							</a>
 						</li>
 						<li>
@@ -35,7 +36,7 @@ const Footer = () => {
 								href='/contact'
 								className='hover:text-main-color-600 transition'
 							>
-								Contact Us
+								Contactez-nous
 							</a>
 						</li>
 						<li>
@@ -43,7 +44,7 @@ const Footer = () => {
 								href='/privacy'
 								className='hover:text-main-color-600 transition'
 							>
-								Privacy Policy
+								Politique de confidentialité
 							</a>
 						</li>
 					</ul>
@@ -51,8 +52,10 @@ const Footer = () => {
 
 				{/* Contact */}
 				<div className='flex-1'>
-					<h3 className='font-medium text-gray-900 mb-4'>Get in touch</h3>
-					<p className='text-gray-500 text-sm mb-2'>Phone: +1-234-567-890</p>
+					<h3 className='font-medium text-gray-900 mb-4'>Contactez-nous</h3>
+					<p className='text-gray-500 text-sm mb-2'>
+						Téléphone: +1-234-567-890
+					</p>
 					<p className='text-gray-500 text-sm mb-4'>
 						Email: contact@tunimode.com
 					</p>
@@ -86,7 +89,7 @@ const Footer = () => {
 			</div>
 
 			<div className='border-t border-gray-200 mt-6 py-4 text-center text-gray-500 text-xs md:text-sm'>
-				Copyright 2025 © Tunimode. All Rights Reserved.
+				Copyright 2025 © Tunimode. Tous droits réservés.
 			</div>
 		</footer>
 	);

@@ -16,7 +16,7 @@ const OrderDetailsModal = ({ order, onClose, onUpdateState }) => {
 				<div className='p-6 border-b sticky top-0 bg-white'>
 					<div className='flex justify-between items-center'>
 						<h2 className='text-2xl font-semibold text-gray-800'>
-							Order Details
+							Détails de la commande
 						</h2>
 						<button
 							onClick={onClose}
@@ -25,7 +25,9 @@ const OrderDetailsModal = ({ order, onClose, onUpdateState }) => {
 							<X size={24} />
 						</button>
 					</div>
-					<p className='text-sm text-gray-500 mt-1'>Order ID: {order._id}</p>
+					<p className='text-sm text-gray-500 mt-1'>
+						ID de commande: {order._id}
+					</p>
 				</div>
 
 				<div className='p-6 space-y-6'>
@@ -33,14 +35,14 @@ const OrderDetailsModal = ({ order, onClose, onUpdateState }) => {
 					<div className='grid md:grid-cols-2 gap-6'>
 						<div>
 							<h3 className='font-semibold text-lg text-gray-700 mb-2'>
-								Customer
+								Client
 							</h3>
 							<p className='text-gray-600'>{order.address.fullName}</p>
 							<p className='text-gray-600'>{order.address.phoneNumber}</p>
 						</div>
 						<div>
 							<h3 className='font-semibold text-lg text-gray-700 mb-2'>
-								Shipping Address
+								Adresse de livraison
 							</h3>
 							<p className='text-gray-600'>{order.address.area}</p>
 							<p className='text-gray-600'>{`${order.address.city}, ${order.address.state}`}</p>
@@ -51,18 +53,18 @@ const OrderDetailsModal = ({ order, onClose, onUpdateState }) => {
 					<div className='grid md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-lg'>
 						<div>
 							<h3 className='font-semibold text-lg text-gray-700 mb-2'>
-								Order State
+								État de la commande
 							</h3>
 							<select
 								value={order.state}
 								onChange={handleStateChange}
 								className='w-full p-2 border rounded-md bg-white'
 							>
-								<option value='pending'>Pending</option>
-								<option value='processing'>Processing</option>
-								<option value='shipped'>Shipped</option>
-								<option value='delivered'>Delivered</option>
-								<option value='cancelled'>Cancelled</option>
+								<option value='pending'>En attente</option>
+								<option value='processing'>En traitement</option>
+								<option value='shipped'>Expédiée</option>
+								<option value='delivered'>Livrée</option>
+								<option value='cancelled'>Annulée</option>
 							</select>
 						</div>
 						<div>
@@ -70,10 +72,10 @@ const OrderDetailsModal = ({ order, onClose, onUpdateState }) => {
 								Dates
 							</h3>
 							<p className='text-sm text-gray-600'>
-								Created: {order.createdAt.slice(0, 10)}
+								Créée: {order.createdAt.slice(0, 10)}
 							</p>
 							<p className='text-sm text-gray-600'>
-								Updated: {order.updatedAt.slice(0, 10)}
+								Mise à jour: {order.updatedAt.slice(0, 10)}
 							</p>
 						</div>
 					</div>
@@ -81,7 +83,7 @@ const OrderDetailsModal = ({ order, onClose, onUpdateState }) => {
 					{/* Items Section */}
 					<div>
 						<h3 className='font-semibold text-lg text-gray-700 mb-2'>
-							Items ({order.items.length})
+							Articles ({order.items.length})
 						</h3>
 						<div className='space-y-4'>
 							{order.items.map((item, index) => (
@@ -100,7 +102,7 @@ const OrderDetailsModal = ({ order, onClose, onUpdateState }) => {
 												{item.product.name}
 											</p>
 											<p className='text-sm text-gray-500'>
-												Quantity: {item.quantity}
+												Quantité: {item.quantity}
 											</p>
 										</div>
 									</div>

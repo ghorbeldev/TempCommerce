@@ -106,13 +106,13 @@ const OrderSummary = () => {
 	return (
 		<div className='w-full md:w-96 bg-gray-500/5 p-5'>
 			<h2 className='text-xl md:text-2xl font-medium text-gray-700'>
-				Order Summary
+				Récapitulatif de la commande
 			</h2>
 			<hr className='border-gray-500/30 my-5' />
 			<div className='space-y-6'>
 				<div>
 					<label className='text-base font-medium uppercase text-gray-600 block mb-2'>
-						Select Address
+						Sélectionner l'adresse
 					</label>
 					<div className='relative inline-block w-full text-sm border'>
 						<button
@@ -122,7 +122,7 @@ const OrderSummary = () => {
 							<span>
 								{selectedAddress
 									? `${selectedAddress.fullName}, ${selectedAddress.area}, ${selectedAddress.city}, ${selectedAddress.state}`
-									: 'Select Address'}
+									: "Sélectionner l'adresse"}
 							</span>
 							<svg
 								className={`w-5 h-5 inline float-right transition-transform duration-200 ${
@@ -158,7 +158,7 @@ const OrderSummary = () => {
 									onClick={() => router.push('/add-address')}
 									className='px-4 py-2 hover:bg-gray-500/10 cursor-pointer text-center'
 								>
-									+ Add New Address
+									+ Ajouter une nouvelle adresse
 								</li>
 							</ul>
 						)}
@@ -169,7 +169,7 @@ const OrderSummary = () => {
 
 				<div className='space-y-4'>
 					<div className='flex justify-between text-base font-medium'>
-						<p className='uppercase text-gray-600'>Items {getCartCount()}</p>
+						<p className='uppercase text-gray-600'>Articles {getCartCount()}</p>
 						<p className='text-gray-800'>
 							{getCartAmount()}
 							<small className='text-sm text-gray-500'>
@@ -178,9 +178,9 @@ const OrderSummary = () => {
 						</p>
 					</div>
 					<div className='flex justify-between'>
-						<p className='text-gray-600'>Shipping Fee</p>
+						<p className='text-gray-600'>Frais de livraison</p>
 						{shippingFees == 0 ? (
-							<p className='font-medium text-gray-800'>Free</p>
+							<p className='font-medium text-gray-800'>Gratuit</p>
 						) : (
 							<div className='flex justify-between items-baseline'>
 								<p className='text-lg font-medium text-gray-800'>
@@ -213,7 +213,7 @@ const OrderSummary = () => {
 						: 'bg-main-color-600 hover:bg-main-color-700'
 				}`}
 			>
-				{isPlacingOrder ? 'Placing Order...' : 'Place Order'}
+				{isPlacingOrder ? 'Passer la commande...' : 'Passer la commande'}
 			</button>
 		</div>
 	);

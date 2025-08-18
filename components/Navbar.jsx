@@ -24,13 +24,13 @@ const Navbar = () => {
 				{/* Desktop Menu */}
 				<div className='hidden md:flex items-center gap-6 lg:gap-10'>
 					<Link href='/' className='hover:text-main-color-600 transition'>
-						Home
+						Accueil
 					</Link>
 					<Link
 						href='/all-products'
 						className='hover:text-main-color-600 transition'
 					>
-						Shop
+						Boutique
 					</Link>
 					<Link
 						href='/all-products?shop=Prêt à Porter'
@@ -45,7 +45,7 @@ const Navbar = () => {
 						Fripe
 					</Link>
 					<Link href='/about' className='hover:text-main-color-600 transition'>
-						About Us
+						À propos de nous
 					</Link>
 					<Link
 						href='/contact'
@@ -59,7 +59,7 @@ const Navbar = () => {
 						href='/my-orders'
 						className='hover:text-main-color-600 transition'
 					>
-						Orders
+						Commandes
 					</Link>
 
 					{Boolean(user) && isSeller && (
@@ -67,7 +67,7 @@ const Navbar = () => {
 							onClick={() => router.push('/seller')}
 							className='text-xs border px-4 py-1.5 rounded-full hover:bg-main-color-600 hover:text-white transition'
 						>
-							Seller Dashboard
+							Tableau de bord Vendeur
 						</button>
 					)}
 				</div>
@@ -106,7 +106,7 @@ const Navbar = () => {
 							className='flex items-center gap-2 hover:text-main-color-600 transition'
 						>
 							<Image src={assets.user_icon} alt='user icon' />
-							<span className='hidden md:inline'>Account</span>
+							<span className='hidden md:inline'>Compte</span>
 						</button>
 					)}
 				</div>
@@ -143,7 +143,7 @@ const Navbar = () => {
 						onClick={() => router.push('/seller')}
 						className='text-xs border px-3 py-1 rounded-full hover:bg-main-color-600 hover:text-white transition'
 					>
-						Seller
+						Vendeur
 					</button>
 				)}
 			</div>

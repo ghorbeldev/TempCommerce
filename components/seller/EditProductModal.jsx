@@ -73,13 +73,13 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 	return (
 		<div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4'>
 			<div className='bg-white rounded-lg shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto p-6'>
-				<h2 className='text-lg font-bold mb-4'>Edit Product</h2>
+				<h2 className='text-lg font-bold mb-4'>Modifier le produit</h2>
 				<form className='flex flex-col gap-3' onSubmit={handleSubmit}>
 					<input
 						type='text'
 						value={name}
 						onChange={e => setName(e.target.value)}
-						placeholder='Product Name'
+						placeholder='Nom du produit'
 						className='border px-3 py-2 rounded w-full'
 					/>
 					<textarea
@@ -96,7 +96,7 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 							htmlFor='shop-select'
 							className='block text-sm font-medium text-gray-700 mb-2'
 						>
-							Shop
+							Boutique
 						</label>
 						<select
 							id='shop-select'
@@ -112,7 +112,7 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 					{/* Category Management Section */}
 					<div className='border p-3 rounded'>
 						<label className='block text-sm font-medium text-gray-700 mb-2'>
-							Categories
+							Catégories
 						</label>
 						<CategoryManager
 							initialSelectedCategories={product.categories}
@@ -124,13 +124,13 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 							htmlFor=''
 							className='block text-sm font-medium text-gray-700 mb-2'
 						>
-							Price
+							Prix
 						</label>
 						<input
 							type='number'
 							value={price}
 							onChange={e => setPrice(e.target.value)}
-							placeholder='Price'
+							placeholder='Prix'
 							className='border px-3 py-2 rounded w-full'
 						/>
 					</div>
@@ -139,13 +139,13 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 							htmlFor=''
 							className='block text-sm font-medium text-gray-700 mb-2'
 						>
-							Offer Price
+							Prix de l'offre
 						</label>
 						<input
 							type='number'
 							value={offerPrice}
 							onChange={e => setOfferPrice(e.target.value)}
-							placeholder='Offer Price'
+							placeholder='Prix de l\'offre'
 							className='border px-3 py-2 rounded w-full'
 						/>
 					</div>
@@ -154,13 +154,13 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 							htmlFor=''
 							className='block text-sm font-medium text-gray-700 mb-2'
 						>
-							Quantity
+							Quantité
 						</label>
 						<input
 							type='number'
 							value={quantity}
 							onChange={e => setQuantity(Number(e.target.value))}
-							placeholder='Quantity'
+							placeholder='Quantité'
 							className='border px-3 py-2 rounded w-full'
 							min='0'
 						/>
@@ -169,7 +169,7 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 					{/* Product Options Management Section */}
 					<div className='border p-3 rounded'>
 						<label className='block text-base font-medium text-gray-700 mb-2'>
-							Product Options (e.g., Size, Color)
+							Options du produit (ex: Taille, Couleur)
 						</label>
 						{options.map((option, optionIndex) => (
 							<div
@@ -179,7 +179,7 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 								<div className='flex items-center justify-between'>
 									<input
 										type='text'
-										placeholder='Option Name (e.g., Size)'
+										placeholder="Nom de l'option (ex: Taille)"
 										value={option.name}
 										onChange={e => {
 											const newOptions = [...options];
@@ -197,7 +197,7 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 										}
 										className='bg-red-600 text-white rounded px-3 py-2 hover:bg-red-700'
 									>
-										Remove Option
+										Supprimer l'option
 									</button>
 								</div>
 								<div className='flex flex-wrap gap-2 items-center'>
@@ -224,7 +224,7 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 									))}
 									<input
 										type='text'
-										placeholder='Add value (comma-separated)'
+										placeholder='Ajouter une valeur (séparée par des virgules)'
 										onKeyPress={e => {
 											if (e.key === 'Enter') {
 												e.preventDefault();
@@ -260,13 +260,13 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 							}
 							className='px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 mt-2'
 						>
-							Add New Option
+							Ajouter une nouvelle option
 						</button>
 					</div>
 					{/* Display existing images */}
 					<div className='border p-3 rounded'>
 						<label className='block text-base font-medium text-gray-700 mb-2'>
-							Product Images
+							Images du produit
 						</label>
 						<div className='flex flex-wrap gap-2 mb-3'>
 							{existingImages.map((img, index) =>
@@ -278,7 +278,7 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 									>
 										<img
 											src={img.url || assets.placeholder} // Added fallback
-											alt={`Product Image ${index}`}
+											alt={`Image du produit ${index}`}
 											className='w-full h-full object-cover' // Use Tailwind for object-fit
 										/>
 										<button
@@ -305,7 +305,7 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 									>
 										<img
 											src={img instanceof File ? URL.createObjectURL(img) : ''} // Added fallback
-											alt={`New Image ${index}`}
+											alt={`Nouvelle image ${index}`}
 											className='w-full h-full object-cover' // Use Tailwind for object-fit
 										/>
 										<button
@@ -336,7 +336,7 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 							onClick={onClose}
 							className='px-4 py-2 rounded bg-gray-300 hover:bg-gray-400'
 						>
-							Cancel
+							Annuler
 						</button>
 						<button
 							type='submit'
@@ -347,7 +347,7 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 									: 'bg-blue-600 hover:bg-blue-700'
 							}`}
 						>
-							{submitting ? 'Updating...' : 'Update'}
+							{submitting ? 'Mise à jour...' : 'Mettre à jour'}
 						</button>
 					</div>
 				</form>

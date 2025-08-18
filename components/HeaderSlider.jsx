@@ -29,12 +29,12 @@ export default function HeaderSlider() {
 						d='M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
 					/>
 				</svg>
-				<p className='text-lg'>No products available</p>
+				<p className='text-lg'>Aucun produit disponible</p>
 				<button
 					onClick={() => router.refresh()}
 					className='mt-4 px-4 py-2 bg-gray-800 text-white rounded-full hover:bg-gray-700 transition'
 				>
-					Refresh
+					Actualiser
 				</button>
 			</div>
 		);
@@ -93,7 +93,7 @@ export default function HeaderSlider() {
 
 									<p className='text-sm sm:text-base md:text-lg mb-6 text-white/90 max-w-lg'>
 										{product.description?.slice(0, 140) ||
-											'Discover our premium product'}
+											'Découvrez notre produit premium'}
 										{product.description?.length > 140 && '...'}
 									</p>
 
@@ -116,7 +116,7 @@ export default function HeaderSlider() {
 													d='M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z'
 												/>
 											</svg>
-											Shop Now
+											Acheter maintenant
 										</button>
 
 										{product.price && (

@@ -46,18 +46,18 @@ const ContactPage = () => {
 				<div className='flex-1 flex flex-col lg:flex-row items-start lg:items-center justify-center p-6 lg:p-16 gap-10'>
 					{/* Contact Info */}
 					<div className='w-full lg:w-1/3 bg-white p-8 rounded-2xl shadow-xl flex flex-col gap-6'>
-						<h2 className='text-3xl font-bold text-gray-800'>Get in Touch</h2>
+						<h2 className='text-3xl font-bold text-gray-800'>Contactez-nous</h2>
 						<p className='text-gray-600'>
-							Reach out for questions, support, or business inquiries.
+							Pour toute question, support ou demande commerciale.
 						</p>
 
 						<div className='flex items-center gap-3 text-gray-700'>
 							<FaMapMarkerAlt className='text-main-color-600 w-5 h-5' />
-							<span>Prêt à Porter: 123 Main Street, City</span>
+							<span>Prêt à Porter: 123 Rue Principale, Ville</span>
 						</div>
 						<div className='flex items-center gap-3 text-gray-700'>
 							<FaMapMarkerAlt className='text-main-color-600 w-5 h-5' />
-							<span>Fripe: 456 Second Ave, City</span>
+							<span>Fripe: 456 Deuxième Avenue, Ville</span>
 						</div>
 						<div className='flex items-center gap-3 text-gray-700'>
 							<FaPhone className='text-main-color-600 w-5 h-5' />
@@ -97,7 +97,7 @@ const ContactPage = () => {
 								<input
 									type='text'
 									name='name'
-									placeholder='Your Name'
+									placeholder='Votre Nom'
 									value={formData.name}
 									onChange={handleChange}
 									required
@@ -106,7 +106,7 @@ const ContactPage = () => {
 								<input
 									type='email'
 									name='email'
-									placeholder='Your Email'
+									placeholder='Votre Email'
 									value={formData.email}
 									onChange={handleChange}
 									required
@@ -116,7 +116,7 @@ const ContactPage = () => {
 							<input
 								type='text'
 								name='subject'
-								placeholder='Subject'
+								placeholder='Sujet'
 								value={formData.subject}
 								onChange={handleChange}
 								required
@@ -124,7 +124,7 @@ const ContactPage = () => {
 							/>
 							<textarea
 								name='message'
-								placeholder='Your Message'
+								placeholder='Votre Message'
 								value={formData.message}
 								onChange={handleChange}
 								required
@@ -136,7 +136,7 @@ const ContactPage = () => {
 								disabled={loading}
 								className='bg-main-color-600 text-white px-6 py-3 rounded-xl hover:bg-main-color-700 transition'
 							>
-								{loading ? 'Sending...' : 'Send Message'}
+								{loading ? 'Envoi...' : 'Envoyer le message'}
 							</button>
 						</form>
 					</div>

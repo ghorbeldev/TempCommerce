@@ -80,7 +80,7 @@ const ProductsList = () => {
 				{/* Title */}
 				<div className='flex flex-col items-start pt-12 mb-6'>
 					<h1 className='text-3xl md:text-4xl font-bold text-gray-800'>
-						{selectedShop} Products
+						{selectedShop} Produits
 					</h1>
 					<div className='w-20 h-1 bg-main-color-600 rounded-full mt-2'></div>
 				</div>
@@ -89,7 +89,7 @@ const ProductsList = () => {
 				<div className='flex flex-col md:flex-row items-start md:items-center gap-4 w-full mb-8 flex-wrap bg-white p-4 rounded-lg shadow-sm'>
 					<input
 						type='text'
-						placeholder='Search products...'
+						placeholder='Rechercher des produits...'
 						value={searchText}
 						onChange={e => setSearchText(e.target.value)}
 						className='border border-gray-300 rounded px-4 py-2 w-full md:w-64 outline-none focus:ring-2 focus:ring-main-color-500'
@@ -100,7 +100,7 @@ const ProductsList = () => {
 						onChange={e => setSelectedCategory(e.target.value)}
 						className='border border-gray-300 rounded px-4 py-2 w-full md:w-48 outline-none focus:ring-2 focus:ring-main-color-500'
 					>
-						<option value=''>All Categories</option>
+						<option value=''>Toutes les catégories</option>
 						{allCategories.map(category => (
 							<option key={category} value={category}>
 								{category}
@@ -113,7 +113,7 @@ const ProductsList = () => {
 						onChange={e => handleShopChange(e.target.value)}
 						className='border border-gray-300 rounded px-4 py-2 w-full md:w-48 outline-none focus:ring-2 focus:ring-main-color-500'
 					>
-						<option value='All'>All Shops</option>
+						<option value='All'>Toutes les boutiques</option>
 						<option value='Prêt à Porter'>Prêt à Porter</option>
 						<option value='Fripe'>Fripe</option>
 					</select>
@@ -131,7 +131,7 @@ const ProductsList = () => {
 						))
 					) : (
 						<p className='text-gray-500 col-span-full text-center text-lg'>
-							No products found.
+							Aucun produit trouvé.
 						</p>
 					)}
 				</div>
@@ -144,7 +144,7 @@ const ProductsList = () => {
 							className='px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed'
 							disabled={currentPage === 1}
 						>
-							Prev
+							Précédent
 						</button>
 						{[...Array(totalPages)].map((_, idx) => {
 							const page = idx + 1;
@@ -167,7 +167,7 @@ const ProductsList = () => {
 							className='px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed'
 							disabled={currentPage === totalPages}
 						>
-							Next
+							Suivant
 						</button>
 					</div>
 				)}

@@ -39,7 +39,9 @@ const ProductCard = ({ product }) => {
 				/>
 				{isOutOfStock && (
 					<div className='absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
-						<span className='text-white text-lg font-bold'>Out of Stock</span>
+						<span className='text-white text-lg font-bold'>
+							En rupture de stock
+						</span>
 					</div>
 				)}
 				{/* Wishlist Button */}
@@ -47,7 +49,7 @@ const ProductCard = ({ product }) => {
 					<Image
 						className='h-4 w-4'
 						src={assets.heart_icon}
-						alt='heart_icon'
+						alt='icône de cœur'
 						onClick={handleAddToCart}
 					/>
 				</button>
@@ -92,7 +94,7 @@ const ProductCard = ({ product }) => {
 						: 'hover:bg-main-color-100'
 				}`}
 			>
-				View Product
+				Voir le produit
 			</button>
 		</div>
 	);

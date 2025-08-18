@@ -116,12 +116,12 @@ const ProductList = () => {
 			) : (
 				<div className='w-full p-4 md:p-10'>
 					<h2 className='text-2xl md:text-3xl font-semibold mb-2'>
-						All Products
+						Tous les produits
 					</h2>
 					<p className='text-gray-500 mb-4'>
-						Total Products: <b>{totalProducts}</b>
+						Total des produits: <b>{totalProducts}</b>
 						{fetching && (
-							<span className='ml-2 text-gray-400'>(Loading...)</span>
+							<span className='ml-2 text-gray-400'>(Chargement...)</span>
 						)}
 					</p>
 
@@ -129,7 +129,7 @@ const ProductList = () => {
 					<div className='flex flex-col md:flex-row gap-4 items-start md:items-center mb-6 flex-wrap'>
 						<input
 							type='text'
-							placeholder='Search products...'
+							placeholder='Rechercher des produits...'
 							value={searchText}
 							onChange={e => setSearchText(e.target.value)}
 							className='border px-3 py-2 rounded w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-main-color-500'
@@ -139,7 +139,7 @@ const ProductList = () => {
 							onChange={e => setSelectedCategory(e.target.value)}
 							className='border px-3 py-2 rounded w-full md:w-48 focus:outline-none focus:ring-2 focus:ring-main-color-500'
 						>
-							<option value=''>All Categories</option>
+							<option value=''>Toutes les catégories</option>
 							{allCategories.map(cat => (
 								<option key={cat} value={cat}>
 									{cat}
@@ -151,7 +151,7 @@ const ProductList = () => {
 							onChange={e => setSelectedShop(e.target.value)}
 							className='border px-3 py-2 rounded w-full md:w-48 focus:outline-none focus:ring-2 focus:ring-main-color-500'
 						>
-							<option value='All'>All Shops</option>
+							<option value='All'>Toutes les boutiques</option>
 							<option value='Prêt à Porter'>Prêt à Porter</option>
 							<option value='Fripe'>Fripe</option>
 						</select>
@@ -160,10 +160,10 @@ const ProductList = () => {
 							onChange={e => setSortOrder(e.target.value)}
 							className='border px-3 py-2 rounded w-full md:w-48 focus:outline-none focus:ring-2 focus:ring-main-color-500'
 						>
-							<option value='newest'>Newest</option>
-							<option value='oldest'>Oldest</option>
-							<option value='lowprice'>Lowest Price</option>
-							<option value='highprice'>Highest Price</option>
+							<option value='newest'>Les plus récents</option>
+							<option value='oldest'>Les plus anciens</option>
+							<option value='lowprice'>Prix le plus bas</option>
+							<option value='highprice'>Prix le plus élevé</option>
 						</select>
 					</div>
 
@@ -172,13 +172,13 @@ const ProductList = () => {
 						<table className='min-w-full bg-white rounded-md shadow-md divide-y divide-gray-200'>
 							<thead className='bg-gray-100 text-gray-700'>
 								<tr>
-									<th className='px-4 py-3 text-left'>Product</th>
+									<th className='px-4 py-3 text-left'>Produit</th>
 									<th className='px-4 py-3 text-left hidden sm:table-cell'>
-										Categories
+										Catégories
 									</th>
-									<th className='px-4 py-3 text-left'>Price</th>
+									<th className='px-4 py-3 text-left'>Prix</th>
 									<th className='px-4 py-3 text-left'>Stock</th>
-									<th className='px-4 py-3 text-left'>Shop</th>
+									<th className='px-4 py-3 text-left'>Boutique</th>
 									<th className='px-4 py-3 text-center'>Actions</th>
 								</tr>
 							</thead>
@@ -214,13 +214,13 @@ const ProductList = () => {
 												onClick={() => router.push(`/product/${product._id}`)}
 												className='flex items-center gap-1 px-2 py-1 bg-main-color-600 text-white rounded-md hover:bg-main-color-700'
 											>
-												Visit
+												Visiter
 											</button>
 											<button
 												onClick={() => setEditingProduct(product)}
 												className='px-2 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700'
 											>
-												Edit
+												Modifier
 											</button>
 											<button
 												onClick={() => handleRemove(product._id)}
@@ -231,7 +231,9 @@ const ProductList = () => {
 														: 'bg-red-600 hover:bg-red-700'
 												}`}
 											>
-												{deletingId === product._id ? 'Removing...' : 'Remove'}
+												{deletingId === product._id
+													? 'Suppression...'
+													: 'Supprimer'}
 											</button>
 										</td>
 									</tr>
@@ -241,7 +243,7 @@ const ProductList = () => {
 
 						{products.length === 0 && (
 							<p className='text-gray-500 text-center mt-6'>
-								No products found.
+								Aucun produit trouvé.
 							</p>
 						)}
 					</div>
@@ -254,7 +256,7 @@ const ProductList = () => {
 								disabled={currentPage === 1}
 								className='px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50'
 							>
-								Prev
+								Précédent
 							</button>
 							{Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
 								<button
@@ -274,7 +276,7 @@ const ProductList = () => {
 								disabled={currentPage === totalPages}
 								className='px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50'
 							>
-								Next
+								Suivant
 							</button>
 						</div>
 					)}
