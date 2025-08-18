@@ -16,8 +16,8 @@ const OrderSummary = () => {
 	} = useAppContext();
 	const [selectedAddress, setSelectedAddress] = useState(null);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
 	const [userAddresses, setUserAddresses] = useState([]);
+	const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
 	const fetchUserAddresses = async () => {
 		try {
@@ -46,6 +46,8 @@ const OrderSummary = () => {
 	};
 
 	const createOrder = async () => {
+		if (isPlacingOrder) return; // ✅ prevent multiple clicks
+		setIsPlacingOrder(true);
 		try {
 			if (!selectedAddress) {
 				toast.error('Please select an address');
@@ -63,7 +65,7 @@ const OrderSummary = () => {
 				};
 			});
 			cartItemsArray = cartItemsArray.filter(item => item.quantity > 0);
-
+			console.log(cartItemsArray);
 			if (cartItemsArray.length === 0) {
 				toast.error('Cart is empty');
 				return;
@@ -88,6 +90,8 @@ const OrderSummary = () => {
 			}
 		} catch (error) {
 			toast.error(error.message);
+		} finally {
+			setIsPlacingOrder(false); // ✅ re-enable button if something goes wrong
 		}
 	};
 
@@ -96,7 +100,9 @@ const OrderSummary = () => {
 			fetchUserAddresses();
 		}
 	}, [user]);
-
+	useEffect(() => {}, [cartItems]);
+	const shippingFees =
+		getCartAmount() > 300 ? 0 : process.env.NEXT_PUBLIC_SHIPPING_COST || 6;
 	return (
 		<div className='w-full md:w-96 bg-gray-500/5 p-5'>
 			<h2 className='text-xl md:text-2xl font-medium text-gray-700'>
@@ -159,22 +165,6 @@ const OrderSummary = () => {
 					</div>
 				</div>
 
-				<div>
-					<label className='text-base font-medium uppercase text-gray-600 block mb-2'>
-						Promo Code
-					</label>
-					<div className='flex flex-col items-start gap-3'>
-						<input
-							type='text'
-							placeholder='Enter promo code'
-							className='flex-grow w-full outline-none p-2.5 text-gray-600 border'
-						/>
-						<button className='bg-main-color-600 text-white px-9 py-2 hover:bg-main-color-700'>
-							Apply
-						</button>
-					</div>
-				</div>
-
 				<hr className='border-gray-500/30 my-5' />
 
 				<div className='space-y-4'>
@@ -189,19 +179,23 @@ const OrderSummary = () => {
 					</div>
 					<div className='flex justify-between'>
 						<p className='text-gray-600'>Shipping Fee</p>
-						<p className='font-medium text-gray-800'>Free</p>
-					</div>
-					<div className='flex justify-between'>
-						<p className='text-gray-600'>Tax (2%)</p>
-						<p className='font-medium text-gray-800'>
-							{currency}
-							{Math.floor(getCartAmount() * 0.02)}
-						</p>
+						{shippingFees == 0 ? (
+							<p className='font-medium text-gray-800'>Free</p>
+						) : (
+							<div className='flex justify-between items-baseline'>
+								<p className='text-lg font-medium text-gray-800'>
+									{shippingFees}
+								</p>
+								<small className='text-sm text-gray-500 ml-1'>
+									<b className='text-main-color-900'>{currency}</b>
+								</small>
+							</div>
+						)}
 					</div>
 					<div className='flex justify-between text-lg md:text-xl font-medium border-t pt-3'>
 						<p>Total</p>
 						<p>
-							{getCartAmount() + Math.floor(getCartAmount() * 0.02)}
+							{Number(getCartAmount()) + Number(shippingFees)}
 							<small className='text-sm text-gray-500'>
 								<b className='font-bold text-main-color-900'>{currency}</b>
 							</small>
@@ -212,9 +206,14 @@ const OrderSummary = () => {
 
 			<button
 				onClick={createOrder}
-				className='w-full bg-main-color-600 text-white py-3 mt-5 hover:bg-main-color-700'
+				disabled={isPlacingOrder} // ✅ disable while placing
+				className={`w-full py-3 mt-5 text-white transition ${
+					isPlacingOrder
+						? 'bg-gray-400 cursor-not-allowed'
+						: 'bg-main-color-600 hover:bg-main-color-700'
+				}`}
 			>
-				Place Order
+				{isPlacingOrder ? 'Placing Order...' : 'Place Order'}
 			</button>
 		</div>
 	);

@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
+import { assets } from '@/assets/assets';
 
 export default function AboutPage() {
 	return (
@@ -23,7 +24,7 @@ export default function AboutPage() {
 					</div>
 					<div className='flex-1 mt-10 md:mt-0 flex justify-center'>
 						<Image
-							src='/about-hero.png' // 👉 replace with your image
+							src={assets.placeholder} // 👉 replace with your image
 							alt='Tunimode About'
 							width={400}
 							height={400}
@@ -50,7 +51,7 @@ export default function AboutPage() {
 				<section className='px-6 md:px-16 lg:px-24 py-20 bg-gray-50 rounded-3xl'>
 					<div className='grid md:grid-cols-2 gap-12 items-center'>
 						<Image
-							src='/mission.png' // 👉 replace with your image
+							src={assets.placeholder} // 👉 replace with your image
 							alt='Our Mission'
 							width={500}
 							height={350}

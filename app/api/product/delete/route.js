@@ -32,7 +32,7 @@ export async function DELETE(request) {
 
 		await connectDB();
 
-		const product = await Product.findOne({ _id: productId, userId });
+		const product = await Product.findOne({ _id: productId });
 		if (!product) {
 			return NextResponse.json(
 				{ success: false, message: 'Product not found or not authorized' },

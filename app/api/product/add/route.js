@@ -44,6 +44,7 @@ export async function POST(request) {
 		const price = formData.get('price');
 		const offerPrice = formData.get('offerPrice');
 		const shop = formData.get('shop');
+		const quantity = formData.get('quantity'); // Get quantity data
 		const options = formData.get('options'); // Get options data
 		const parsedOptions = options ? JSON.parse(options) : [];
 		const files = formData.getAll('images');
@@ -98,6 +99,7 @@ export async function POST(request) {
 			shop,
 			options: parsedOptions,
 			date: Date.now(),
+			quantity: Number(quantity),
 		});
 
 		return NextResponse.json({

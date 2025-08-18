@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+import placeholder from './placeholder.png';
 import search_icon from './search_icon.svg';
 import user_icon from './user_icon.svg';
 import cart_icon from './cart_icon.svg';
@@ -28,6 +29,7 @@ import checkmark from './checkmark.png';
 
 export const assets = {
 	logo,
+	placeholder,
 	search_icon,
 	user_icon,
 	cart_icon,
@@ -81,8 +83,8 @@ export const BagIcon = () => {
 export const CartIcon = () => {
 	return (
 		<svg
-			width='18'
-			height='18'
+			width='22'
+			height='22'
 			viewBox='0 0 18 18'
 			fill='none'
 			xmlns='http://www.w3.org/2000/svg'

@@ -115,7 +115,7 @@ const MyOrders = () => {
 													Order #{order._id.slice(-8)}
 												</p>
 												<p className='text-sm text-gray-500 mt-1'>
-													Placed on {new Date(order.date).toLocaleDateString()}
+													Placed on {order.createdAt.slice(0, 10)}
 												</p>
 											</div>
 											<div className='mt-4 sm:mt-0 flex items-center gap-3'>
@@ -131,27 +131,34 @@ const MyOrders = () => {
 											<div className='space-y-4'>
 												{order.items.map(item => (
 													<div
-														key={item.product._id}
+														key={item.product?._id}
 														className='flex items-start gap-4'
 													>
 														<img
 															src={
-																item.product?.image?.[0]?.url || assets.box_icon
+																item.product?.image?.[0]?.url ||
+																assets.placeholder
 															}
-															alt={item.product.name}
+															alt={item.product?.name}
 															className='w-20 h-20 object-cover rounded-md'
 														/>
 														<div className='flex-1'>
 															<h3 className='font-semibold text-gray-800'>
-																{item.product.name}
+																{item.product?.name}
 															</h3>
 															<p className='text-sm text-gray-500'>
 																Qty: {item.quantity}
 															</p>
 														</div>
 														<p className='text-right font-semibold text-gray-800'>
+															{(
+																(item?.product?.offerPrice <
+																	item?.product?.price &&
+																item?.product?.offerPrice > 0
+																	? item?.product?.offerPrice
+																	: item?.product?.price) * item.quantity
+															).toFixed(2)}
 															{currency}
-															{(item.product.price * item.quantity).toFixed(2)}
 														</p>
 													</div>
 												))}
@@ -159,7 +166,12 @@ const MyOrders = () => {
 										</div>
 										<div className='p-4 sm:p-6 bg-gray-50 border-t text-right'>
 											<p className='text-xl font-bold text-gray-800'>
-												Total: {currency}
+												Total:{' '}
+												<small className='text-sm text-gray-500'>
+													(+ {process.env.NEXT_PUBLIC_SHIPPING_COST}
+													{' TND '}Shipping Fees ){' '}
+												</small>
+												{currency}
 												{order.amount.toFixed(2)}
 											</p>
 										</div>

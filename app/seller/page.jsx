@@ -14,7 +14,8 @@ const AddProduct = () => {
 	const [description, setDescription] = useState('');
 	const [price, setPrice] = useState('');
 	const [offerPrice, setOfferPrice] = useState('');
-	const [shop, setShop] = useState('Shop 1');
+	const [quantity, setQuantity] = useState(0); // Add quantity state
+	const [shop, setShop] = useState('Prêt à Porter');
 	const [options, setOptions] = useState([]);
 	const [categoryData, setCategoryData] = useState({
 		selectedCategories: [],
@@ -33,6 +34,7 @@ const AddProduct = () => {
 		formData.append('newCategories', categoryData.newCategories);
 		formData.append('price', price);
 		formData.append('offerPrice', offerPrice);
+		formData.append('quantity', quantity); // Append quantity
 		formData.append('shop', shop);
 		formData.append('options', JSON.stringify(options));
 		files.forEach(file => formData.append('images', file));
@@ -50,7 +52,8 @@ const AddProduct = () => {
 				setCategoryData({ selectedCategories: [], newCategories: '' });
 				setPrice('');
 				setOfferPrice('');
-				setShop('Shop 1');
+				setQuantity(0); // Reset quantity
+				setShop('Prêt à Porter');
 				setOptions([]);
 			} else toast.error(data.message);
 		} catch (err) {
@@ -122,8 +125,8 @@ const AddProduct = () => {
 						onChange={e => setShop(e.target.value)}
 						className='border px-3 py-2 rounded w-full'
 					>
-						<option value='Shop 1'>Shop 1</option>
-						<option value='Shop 2'>Shop 2</option>
+						<option value='Prêt à Porter'>Prêt à Porter</option>
+						<option value='Fripe'>Fripe</option>
 					</select>
 				</div>
 
@@ -245,6 +248,17 @@ const AddProduct = () => {
 							onChange={e => setOfferPrice(e.target.value)}
 							className='border px-3 py-2 rounded w-full'
 							required
+						/>
+					</div>
+					<div className='flex flex-col gap-1 w-40'>
+						<label className='text-base font-medium'>Quantity</label>
+						<input
+							type='number'
+							value={quantity}
+							onChange={e => setQuantity(Number(e.target.value))}
+							className='border px-3 py-2 rounded w-full'
+							required
+							min='0'
 						/>
 					</div>
 				</div>

@@ -8,8 +8,9 @@ import MainLayout from '@/components/MainLayout';
 const outfit = Outfit({ subsets: ['latin'], weight: ['300', '400', '500'] });
 
 export const metadata = {
-	title: 'DemoCommerce - GhorbelStack',
-	description: 'E-Commerce with Next.js ',
+	title: 'Tunimode - Online Fashion Store',
+	description:
+		'Discover the latest trends in fashion, clothing, and accessories at Tunimode. Shop online with fast shipping, secure payments, and exclusive deals.',
 };
 
 export default function RootLayout({ children }) {
@@ -19,7 +20,7 @@ export default function RootLayout({ children }) {
 				<body className={`${outfit.className} antialiased text-gray-700`}>
 					<Toaster />
 					<AppContextProvider>
-						<MainLayout>{children}</MainLayout>
+						<>{children}</>
 					</AppContextProvider>
 				</body>
 			</html>

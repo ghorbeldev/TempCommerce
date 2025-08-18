@@ -70,7 +70,9 @@ const Product = () => {
 					<div className='space-y-4'>
 						<div className='rounded-lg overflow-hidden bg-gray-100'>
 							<Image
-								src={mainImage || productData.image[0].url}
+								src={
+									mainImage || productData.image[0].url || assets.placeholder
+								}
 								alt={productData.name}
 								className='w-full h-[400px] md:h-[500px] object-contain rounded-lg'
 								width={1280}
@@ -85,7 +87,7 @@ const Product = () => {
 									className='cursor-pointer rounded-lg overflow-hidden bg-gray-100 hover:scale-105 transition-transform'
 								>
 									<Image
-										src={img.url}
+										src={img.url || assets.placeholder}
 										alt={`${productData.name} ${idx + 1}`}
 										className='w-full h-[90px] md:h-[110px] object-contain rounded-lg'
 										width={1280}
@@ -126,20 +128,22 @@ const Product = () => {
 
 							{/* Price */}
 							<p className='text-2xl md:text-3xl font-semibold mt-4'>
-								{productData.offerPrice > 0
+								{productData.offerPrice < productData.price &&
+								productData.offerPrice > 0
 									? productData.offerPrice
 									: productData.price}
 								<small className='text-sm text-gray-500 ml-1'>
 									<b className='text-main-color-900'>{currency}</b>
 								</small>
-								{productData.offerPrice < productData.price && (
-									<span className='line-through text-gray-400 text-lg md:text-xl ml-2'>
-										{productData.price}
-										<small className='text-sm text-gray-500 ml-1'>
-											<b className='text-main-color-900'>{currency}</b>
-										</small>
-									</span>
-								)}
+								{productData.offerPrice < productData.price &&
+									productData.offerPrice > 0 && (
+										<span className='line-through text-gray-400 text-lg md:text-xl ml-2'>
+											{productData.price}
+											<small className='text-sm no-underline text-gray-400 ml-1'>
+												{currency}
+											</small>
+										</span>
+									)}
 							</p>
 
 							{/* Options */}
@@ -173,13 +177,23 @@ const Product = () => {
 						<div className='flex flex-col md:flex-row gap-3 mt-6 sticky md:static bottom-4 md:bottom-auto bg-white md:bg-transparent p-4 md:p-0'>
 							<button
 								onClick={handleAddToCart}
-								className='w-full md:w-1/2 py-3.5 bg-gray-100 text-gray-800 hover:bg-gray-200 transition rounded-md'
+								disabled={productData.quantity === 0}
+								className={`w-full md:w-1/2 py-3.5 transition rounded-md ${
+									productData.quantity === 0
+										? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+										: 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+								}`}
 							>
-								Add to Cart
+								{productData.quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
 							</button>
 							<button
 								onClick={handleBuyNow}
-								className='w-full md:w-1/2 py-3.5 bg-main-color-500 text-white hover:bg-main-color-600 transition rounded-md'
+								disabled={productData.quantity === 0}
+								className={`w-full md:w-1/2 py-3.5 transition rounded-md ${
+									productData.quantity === 0
+										? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+										: 'bg-main-color-500 text-white hover:bg-main-color-600'
+								}`}
 							>
 								Buy Now
 							</button>

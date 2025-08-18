@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import { assets, BagIcon, BoxIcon, CartIcon, HomeIcon } from '@/assets/assets';
 import Link from 'next/link';
 import { useAppContext } from '@/context/AppContext';
@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useClerk, UserButton } from '@clerk/nextjs';
 
 const Navbar = () => {
-	const { isSeller, router, user, cartItems } = useAppContext();
+	const { isSeller, router, user, getCartCount } = useAppContext();
 	const { openSignIn } = useClerk();
 
 	return (
@@ -31,6 +31,18 @@ const Navbar = () => {
 						className='hover:text-main-color-600 transition'
 					>
 						Shop
+					</Link>
+					<Link
+						href='/all-products?shop=Prêt à Porter'
+						className='hover:text-main-color-600 transition'
+					>
+						Prêt-à-porter
+					</Link>
+					<Link
+						href='/all-products?shop=Fripe'
+						className='hover:text-main-color-600 transition'
+					>
+						Fripe
 					</Link>
 					<Link href='/about' className='hover:text-main-color-600 transition'>
 						About Us
@@ -66,9 +78,20 @@ const Navbar = () => {
 					{user && (
 						<button onClick={() => router.push('/cart')} className='relative'>
 							<CartIcon />
-							{cartItems?.length > 0 && (
-								<span className='absolute -top-2 -right-2 bg-main-color-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full'>
-									{cartItems.length}
+							{getCartCount() > 0 && (
+								<span
+									className='
+										absolute -top-1 -right-1
+										bg-main-color-700 text-white font-semibold text-xs
+										w-4 h-4
+										flex items-center justify-center
+										rounded-full
+										shadow
+										transition-transform duration-150 ease-in-out
+										hover:scale-110
+									'
+								>
+									{getCartCount()}
 								</span>
 							)}
 						</button>
@@ -97,11 +120,17 @@ const Navbar = () => {
 				<button onClick={() => router.push('/all-products')}>
 					<BoxIcon />
 				</button>
+				<button onClick={() => router.push('/all-products?shop=Prêt à Porter')}>
+					<span className='text-sm font-medium'>Prêt</span>
+				</button>
+				<button onClick={() => router.push('/all-products?shop=Fripe')}>
+					<span className='text-sm font-medium'>Fripe</span>
+				</button>
 				<button onClick={() => router.push('/cart')} className='relative'>
 					<CartIcon />
-					{cartItems?.length > 0 && (
+					{getCartCount() > 0 && (
 						<span className='absolute -top-1 -right-2 bg-main-color-600 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full'>
-							{cartItems.length}
+							{getCartCount()}
 						</span>
 					)}
 				</button>

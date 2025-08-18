@@ -5,6 +5,7 @@ import HomeProducts from '@/components/HomeProducts';
 import FeaturedProduct from '@/components/FeaturedProduct';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Banner from '@/components/Banner';
 
 const Home = () => {
 	return (

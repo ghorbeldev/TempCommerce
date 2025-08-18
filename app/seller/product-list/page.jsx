@@ -152,8 +152,8 @@ const ProductList = () => {
 							className='border px-3 py-2 rounded w-full md:w-48 focus:outline-none focus:ring-2 focus:ring-main-color-500'
 						>
 							<option value='All'>All Shops</option>
-							<option value='Shop 1'>Shop 1</option>
-							<option value='Shop 2'>Shop 2</option>
+							<option value='Prêt à Porter'>Prêt à Porter</option>
+							<option value='Fripe'>Fripe</option>
 						</select>
 						<select
 							value={sortOrder}
@@ -177,6 +177,7 @@ const ProductList = () => {
 										Categories
 									</th>
 									<th className='px-4 py-3 text-left'>Price</th>
+									<th className='px-4 py-3 text-left'>Stock</th>
 									<th className='px-4 py-3 text-left'>Shop</th>
 									<th className='px-4 py-3 text-center'>Actions</th>
 								</tr>
@@ -186,9 +187,9 @@ const ProductList = () => {
 									<tr key={product._id} className='hover:bg-gray-50'>
 										<td className='px-4 py-3 flex items-center space-x-3'>
 											<div className='w-16 h-16 relative flex-shrink-0 rounded-md overflow-hidden bg-gray-200'>
-												{product.image[0]?.url && (
+												{product?.image?.[0]?.url && (
 													<Image
-														src={product.image[0].url}
+														src={product?.image?.[0]?.url || assets.placeholder}
 														alt={product.name}
 														fill
 														className='object-cover'
@@ -206,6 +207,7 @@ const ProductList = () => {
 												<b className='text-main-color-900'>{currency}</b>
 											</small>
 										</td>
+										<td className='px-4 py-3'>{product.quantity}</td>
 										<td className='px-4 py-3'>{product.shop}</td>
 										<td className='px-4 py-3 flex flex-wrap justify-center gap-2'>
 											<button

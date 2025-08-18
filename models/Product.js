@@ -35,7 +35,7 @@ const productSchema = new mongoose.Schema({
 	shop: {
 		type: String,
 		required: true,
-		enum: ['Shop 1', 'Shop 2'],
+		enum: ['Prêt à Porter', 'Fripe'],
 	},
 	test: {
 		type: String,
@@ -65,6 +65,11 @@ const productSchema = new mongoose.Schema({
 	date: {
 		type: Number,
 		required: true,
+	},
+	quantity: {
+		type: Number,
+		required: true,
+		default: 0,
 	},
 });
 

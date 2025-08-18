@@ -47,7 +47,7 @@ const FeaturedCategories = () => {
 				{categories.map(({ id, image, title, description, key }) => (
 					<div key={id} className='relative group'>
 						<Image
-							src={image}
+							src={image || assets.placeholder}
 							alt={title}
 							className='group-hover:brightness-75 transition duration-300 w-full h-auto object-cover'
 						/>

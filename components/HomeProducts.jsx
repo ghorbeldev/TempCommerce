@@ -6,19 +6,21 @@ const HomeProducts = () => {
 	const { products, router } = useAppContext();
 
 	// Filter products by shop
-	const shop1Products = products.filter(p => p.shop === 'Shop 1').slice(0, 10);
-	const shop2Products = products.filter(p => p.shop === 'Shop 2').slice(0, 10);
+	const shop1Products = products
+		.filter(p => p.shop === 'Prêt à Porter')
+		.slice(0, 10);
+	const shop2Products = products.filter(p => p.shop === 'Fripe').slice(0, 10);
 
 	return (
 		<div className='flex flex-col items-center w-full px-4 md:px-16 pt-14 space-y-20'>
-			{/* Shop 1 Products */}
+			{/* Prêt à Porter Products */}
 			<div className='w-full'>
 				<div className='flex flex-col md:flex-row items-center justify-between mb-6'>
 					<h2 className='text-3xl font-bold text-main-color-600'>
-						Shop 1 Products
+						Prêt à Porter Products
 					</h2>
 					<button
-						onClick={() => router.push('/all-products?shop=Shop 1')}
+						onClick={() => router.push('/all-products?shop=Prêt à Porter')}
 						className='mt-4 md:mt-0 px-6 py-2 bg-main-color-500 text-white rounded-lg hover:bg-main-color-600 transition'
 					>
 						View All
@@ -37,14 +39,14 @@ const HomeProducts = () => {
 				</div>
 			</div>
 
-			{/* Shop 2 Products */}
+			{/* Fripe Products */}
 			<div className='w-full'>
 				<div className='flex flex-col md:flex-row items-center justify-between mb-6'>
 					<h2 className='text-3xl font-bold text-main-color-600'>
-						Shop 2 Products
+						Fripe Products
 					</h2>
 					<button
-						onClick={() => router.push('/all-products?shop=Shop 2')}
+						onClick={() => router.push('/all-products?shop=Fripe')}
 						className='mt-4 md:mt-0 px-6 py-2 bg-main-color-500 text-white rounded-lg hover:bg-main-color-600 transition'
 					>
 						View All

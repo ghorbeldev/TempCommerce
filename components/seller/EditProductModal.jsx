@@ -1,15 +1,16 @@
-'use client';
 import React, { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import CategoryManager from './CategoryManager';
+import { assets } from '@/assets/assets';
 
 const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 	const [name, setName] = useState(product.name);
 	const [description, setDescription] = useState(product.description);
 	const [price, setPrice] = useState(product.price);
 	const [offerPrice, setOfferPrice] = useState(product.offerPrice);
-	const [shop, setShop] = useState(product.shop || 'Shop 1');
+	const [quantity, setQuantity] = useState(product.quantity); // Add quantity state
+	const [shop, setShop] = useState(product.shop || 'Prêt à Porter');
 	const [existingImages, setExistingImages] = useState(product.image || []);
 	const [newImages, setNewImages] = useState([]);
 	const [submitting, setSubmitting] = useState(false);
@@ -39,6 +40,7 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 			formData.append('newCategories', categoryData.newCategories);
 			formData.append('price', price);
 			formData.append('offerPrice', offerPrice);
+			formData.append('quantity', quantity); // Append quantity
 			formData.append('shop', shop);
 			// Append existing images to keep
 			existingImages.forEach(img =>
@@ -54,6 +56,7 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 
 			if (data.success) {
 				toast.success('Product updated successfully');
+				console.log('Updated Product:', data.updatedProduct);
 				onUpdate(data.updatedProduct);
 				onClose();
 			} else {
@@ -61,6 +64,7 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 			}
 		} catch (err) {
 			toast.error(err.message);
+			console.error(err);
 		} finally {
 			setSubmitting(false);
 		}
@@ -100,8 +104,8 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 							onChange={e => setShop(e.target.value)}
 							className='border px-3 py-2 rounded w-full'
 						>
-							<option value='Shop 1'>Shop 1</option>
-							<option value='Shop 2'>Shop 2</option>
+							<option value='Prêt à Porter'>Prêt à Porter</option>
+							<option value='Fripe'>Fripe</option>
 						</select>
 					</div>
 
@@ -115,21 +119,52 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 							onChange={setCategoryData}
 						/>
 					</div>
-
-					<input
-						type='number'
-						value={price}
-						onChange={e => setPrice(e.target.value)}
-						placeholder='Price'
-						className='border px-3 py-2 rounded w-full'
-					/>
-					<input
-						type='number'
-						value={offerPrice}
-						onChange={e => setOfferPrice(e.target.value)}
-						placeholder='Offer Price'
-						className='border px-3 py-2 rounded w-full'
-					/>
+					<div className='border p-3 rounded'>
+						<label
+							htmlFor=''
+							className='block text-sm font-medium text-gray-700 mb-2'
+						>
+							Price
+						</label>
+						<input
+							type='number'
+							value={price}
+							onChange={e => setPrice(e.target.value)}
+							placeholder='Price'
+							className='border px-3 py-2 rounded w-full'
+						/>
+					</div>
+					<div className='border p-3 rounded'>
+						<label
+							htmlFor=''
+							className='block text-sm font-medium text-gray-700 mb-2'
+						>
+							Offer Price
+						</label>
+						<input
+							type='number'
+							value={offerPrice}
+							onChange={e => setOfferPrice(e.target.value)}
+							placeholder='Offer Price'
+							className='border px-3 py-2 rounded w-full'
+						/>
+					</div>
+					<div className='border p-3 rounded'>
+						<label
+							htmlFor=''
+							className='block text-sm font-medium text-gray-700 mb-2'
+						>
+							Quantity
+						</label>
+						<input
+							type='number'
+							value={quantity}
+							onChange={e => setQuantity(Number(e.target.value))}
+							placeholder='Quantity'
+							className='border px-3 py-2 rounded w-full'
+							min='0'
+						/>
+					</div>
 
 					{/* Product Options Management Section */}
 					<div className='border p-3 rounded'>
@@ -242,7 +277,7 @@ const EditProductModal = ({ product, isOpen, onClose, getToken, onUpdate }) => {
 										className='relative w-24 h-24 border rounded overflow-hidden'
 									>
 										<img
-											src={img.url}
+											src={img.url || assets.placeholder} // Added fallback
 											alt={`Product Image ${index}`}
 											className='w-full h-full object-cover' // Use Tailwind for object-fit
 										/>

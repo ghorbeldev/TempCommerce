@@ -4,28 +4,52 @@ import Image from 'next/image';
 import { useAppContext } from '@/context/AppContext';
 
 const ProductCard = ({ product }) => {
-	const { currency, router } = useAppContext();
+	const { currency, router, addToCart } = useAppContext();
+	console.log(product);
+	const isOutOfStock = product.quantity === 0;
+
+	const handleClick = e => {
+		if (isOutOfStock) {
+			e.preventDefault(); // Prevent navigation if out of stock
+			return;
+		}
+		router.push('/product/' + product._id);
+		window.scrollTo(0, 0);
+	};
+
+	const handleAddToCart = () => {
+		addToCart(product._id, {});
+	};
 
 	return (
 		<div
-			onClick={() => {
-				router.push('/product/' + product._id);
-				scrollTo(0, 0);
-			}}
-			className='flex flex-col items-start gap-2 max-w-[220px] w-full cursor-pointer group'
+			onClick={handleClick}
+			className={`flex flex-col items-start gap-2 max-w-[220px] w-full group ${
+				isOutOfStock ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
+			}`}
 		>
 			{/* Product Image */}
 			<div className='relative bg-gray-100 rounded-xl overflow-hidden w-full h-52 flex items-center justify-center shadow-sm hover:shadow-lg transition'>
 				<Image
-					src={product.image[0].url}
+					src={product?.image?.[0]?.url || assets.placeholder}
 					alt={product.name}
 					className='object-contain w-full h-full transition-transform duration-300 group-hover:scale-105'
 					width={800}
 					height={800}
 				/>
+				{isOutOfStock && (
+					<div className='absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
+						<span className='text-white text-lg font-bold'>Out of Stock</span>
+					</div>
+				)}
 				{/* Wishlist Button */}
 				<button className='absolute top-2 right-2 bg-white p-2 rounded-full shadow-md hover:bg-main-color-100 transition'>
-					<Image className='h-4 w-4' src={assets.heart_icon} alt='heart_icon' />
+					<Image
+						className='h-4 w-4'
+						src={assets.heart_icon}
+						alt='heart_icon'
+						onClick={handleAddToCart}
+					/>
 				</button>
 			</div>
 
@@ -60,11 +84,13 @@ const ProductCard = ({ product }) => {
 
 			{/* Buy Now Button */}
 			<button
-				onClick={e => {
-					e.stopPropagation();
-					router.push('/product/' + product._id);
-				}}
-				className='mt-2 w-full px-4 py-2 text-xs text-gray-700 border border-gray-300 rounded-full hover:bg-main-color-100 transition'
+				onClick={handleClick}
+				disabled={isOutOfStock}
+				className={`mt-2 w-full px-4 py-2 text-xs text-gray-700 border border-gray-300 rounded-full transition ${
+					isOutOfStock
+						? 'bg-gray-200 cursor-not-allowed'
+						: 'hover:bg-main-color-100'
+				}`}
 			>
 				View Product
 			</button>

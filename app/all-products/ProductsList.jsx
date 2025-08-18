@@ -29,6 +29,10 @@ const ProductsList = () => {
 	}, [searchParams]);
 
 	// Filtered products
+	console.log(
+		products.filter(product => product._id === '68a3351fe969c1613fd28ac6')
+	);
+
 	const filteredProducts = useMemo(() => {
 		return products.filter(product => {
 			const matchesText =
@@ -110,8 +114,8 @@ const ProductsList = () => {
 						className='border border-gray-300 rounded px-4 py-2 w-full md:w-48 outline-none focus:ring-2 focus:ring-main-color-500'
 					>
 						<option value='All'>All Shops</option>
-						<option value='Shop 1'>Shop 1</option>
-						<option value='Shop 2'>Shop 2</option>
+						<option value='Prêt à Porter'>Prêt à Porter</option>
+						<option value='Fripe'>Fripe</option>
 					</select>
 				</div>
 

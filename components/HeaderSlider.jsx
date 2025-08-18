@@ -5,6 +5,7 @@ import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { useAppContext } from '@/context/AppContext';
+import { assets } from '@/assets/assets';
 
 export default function HeaderSlider() {
 	const { products, router } = useAppContext();
@@ -64,7 +65,7 @@ export default function HeaderSlider() {
 							{/* Background Image */}
 							<div className='absolute inset-0'>
 								<Image
-									src={product.image?.[0]?.url || '/placeholder.jpg'}
+									src={product?.image?.[0]?.url || assets.placeholder}
 									alt={product.name}
 									fill
 									priority

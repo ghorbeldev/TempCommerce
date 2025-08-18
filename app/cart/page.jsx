@@ -64,7 +64,9 @@ const Cart = () => {
 												<div>
 													<div className='rounded-lg overflow-hidden bg-gray-500/10 p-2'>
 														<Image
-															src={product.image[0].url}
+															src={
+																product?.image?.[0]?.url || assets.placeholder
+															}
 															alt={product.name}
 															className='w-16 h-auto object-cover mix-blend-multiply'
 															width={1280}
@@ -73,23 +75,37 @@ const Cart = () => {
 													</div>
 													<button
 														className='md:hidden text-xs text-main-color-600 mt-1'
-														onClick={() => updateCartQuantity(product._id, 0)}
+														onClick={() => updateCartQuantity(itemKey, 0)}
 													>
 														Remove
 													</button>
 												</div>
 												<div className='text-sm hidden md:block'>
 													<p className='text-gray-800'>{product.name}</p>
+													{Object.keys(selectedOptions).length > 0 && (
+														<div className='text-xs text-gray-500 mt-1'>
+															{Object.entries(selectedOptions).map(
+																([name, value]) => (
+																	<p key={name}>
+																		{name}: {value}
+																	</p>
+																)
+															)}
+														</div>
+													)}
 													<button
 														className='text-xs text-main-color-600 mt-1'
-														onClick={() => updateCartQuantity(product._id, 0)}
+														onClick={() => updateCartQuantity(itemKey, 0)}
 													>
 														Remove
 													</button>
 												</div>
 											</td>
 											<td className='py-4 md:px-4 px-1 text-gray-600'>
-												{product.offerPrice}
+												{product.offerPrice < product.price &&
+												product.offerPrice > 0
+													? product.offerPrice
+													: product.price}
 												<small className='text-sm text-gray-500 ml-1'>
 													<b className='text-main-color-900'>{currency}</b>
 												</small>
@@ -99,10 +115,11 @@ const Cart = () => {
 													<button
 														onClick={() =>
 															updateCartQuantity(
-																product._id,
+																itemKey,
 																cartItems[itemKey] - 1
 															)
 														}
+														disabled={cartItems[itemKey] <= 1}
 													>
 														<Image
 															src={assets.decrease_arrow}
@@ -113,15 +130,20 @@ const Cart = () => {
 													<input
 														onChange={e =>
 															updateCartQuantity(
-																product._id,
+																itemKey,
 																Number(e.target.value)
 															)
 														}
 														type='number'
 														value={cartItems[itemKey]}
 														className='w-8 border text-center appearance-none'
+														min='1'
+														max={product.quantity}
 													></input>
-													<button onClick={() => addToCart(product._id)}>
+													<button
+														onClick={() => addToCart(itemId, selectedOptions)}
+														disabled={cartItems[itemKey] >= product.quantity}
+													>
 														<Image
 															src={assets.increase_arrow}
 															alt='increase_arrow'
@@ -131,7 +153,12 @@ const Cart = () => {
 												</div>
 											</td>
 											<td className='py-4 md:px-4 px-1 text-gray-600'>
-												{(product.offerPrice * cartItems[itemKey]).toFixed(2)}
+												{(
+													(product.offerPrice < product.price &&
+													product.offerPrice > 0
+														? product.offerPrice
+														: product.price) * cartItems[itemKey]
+												).toFixed(2)}
 												<small className='text-sm text-gray-500 ml-1'>
 													<b className='text-main-color-900'>{currency}</b>
 												</small>

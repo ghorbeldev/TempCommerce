@@ -168,7 +168,7 @@ const Orders = () => {
 													{order.amount.toFixed(2)}
 												</td>
 												<td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-													{new Date(order.date).toLocaleDateString()}
+													{order.createdAt.slice(0, 10)}
 												</td>
 												<td className='px-6 py-4 whitespace-nowrap'>
 													<span

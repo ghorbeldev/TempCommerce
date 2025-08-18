@@ -14,10 +14,15 @@ export async function GET(request) {
 		const orders = await Order.find({ userId }).populate(
 			'address items.product'
 		);
+		const cleanedOrders = orders.map(order => {
+			order.items = order.items.filter(item => item.product !== null);
+			return order;
+		});
+		console.log('Fetched orders:', cleanedOrders);
 
 		return NextResponse.json({
 			success: true,
-			orders,
+			orders: cleanedOrders,
 		});
 	} catch (error) {
 		console.log(error);

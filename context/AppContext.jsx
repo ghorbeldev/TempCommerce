@@ -69,21 +69,32 @@ export const AppContextProvider = props => {
 		}
 	};
 
-	// Modified addToCart to accept selectedOptions
-	const addToCart = async (itemId, selectedOptions = {}) => {
+	// Modified addToCart to accept selectedOptions and respect stock
+	const addToCart = async (itemId, selectedOptions = {}, quantityToAdd = 1) => {
 		try {
 			setLoading(true);
 			let cartData = structuredClone(cartItems);
-			// Create a unique key for the item in the cart based on product ID and selected options
-			// This ensures different variants of the same product are treated as separate items
 			const itemKey = JSON.stringify({ itemId, selectedOptions });
 
-			if (cartData[itemKey]) {
-				cartData[itemKey] += 1;
-			} else {
-				cartData[itemKey] = 1;
+			const product = products.find(p => p._id === itemId);
+			if (!product) {
+				toast.error('Product not found.');
+				return;
 			}
+
+			const currentQuantityInCart = cartData[itemKey] || 0;
+			const newQuantityInCart = currentQuantityInCart + quantityToAdd;
+
+			if (newQuantityInCart > product.quantity) {
+				toast.error(
+					`Cannot add more than available stock. Available: ${product.quantity}`
+				);
+				return;
+			}
+
+			cartData[itemKey] = newQuantityInCart;
 			setCartItems(cartData);
+
 			if (user) {
 				try {
 					const token = await getToken();
@@ -111,6 +122,21 @@ export const AppContextProvider = props => {
 		try {
 			setLoading(true);
 			let cartData = structuredClone(cartItems);
+			const { itemId } = JSON.parse(itemKey);
+			const product = products.find(p => p._id === itemId);
+
+			if (!product) {
+				toast.error('Product not found.');
+				return;
+			}
+
+			if (quantity > product.quantity) {
+				toast.error(
+					`Cannot set quantity more than available stock. Available: ${product.quantity}`
+				);
+				return;
+			}
+
 			if (quantity === 0) {
 				delete cartData[itemKey];
 			} else {
@@ -142,7 +168,9 @@ export const AppContextProvider = props => {
 	const getCartCount = () => {
 		let totalCount = 0;
 		for (const itemKey in cartItems) {
-			if (cartItems[itemKey] > 0) {
+			const { itemId } = JSON.parse(itemKey);
+			let itemInfo = products.find(product => product._id === itemId);
+			if (cartItems[itemKey] > 0 && itemInfo) {
 				totalCount += cartItems[itemKey];
 			}
 		}
@@ -155,7 +183,10 @@ export const AppContextProvider = props => {
 			const { itemId } = JSON.parse(itemKey); // Extract itemId from the unique key
 			let itemInfo = products.find(product => product._id === itemId);
 			if (cartItems[itemKey] > 0 && itemInfo) {
-				totalAmount += itemInfo.offerPrice * cartItems[itemKey];
+				totalAmount +=
+					(itemInfo.offerPrice < itemInfo.price && itemInfo.offerPrice > 0
+						? itemInfo.offerPrice
+						: itemInfo.price) * cartItems[itemKey];
 			}
 		}
 		return Math.floor(totalAmount * 100) / 100;

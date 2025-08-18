@@ -15,7 +15,6 @@ export async function PUT(request) {
 	try {
 		const { userId } = getAuth(request);
 		const isSeller = await authSeller(userId);
-
 		if (!isSeller) {
 			return NextResponse.json(
 				{ success: false, message: 'You are not a seller' },
@@ -24,6 +23,7 @@ export async function PUT(request) {
 		}
 
 		const formData = await request.formData();
+		console.log(formData);
 
 		const productId = formData.get('productId');
 		if (!productId) {
@@ -53,6 +53,7 @@ export async function PUT(request) {
 		const price = formData.get('price');
 		const offerPrice = formData.get('offerPrice');
 		const shop = formData.get('shop');
+		const quantity = formData.get('quantity'); // Get quantity data
 		const options = formData.get('options'); // JSON string
 		const parsedOptions = options ? JSON.parse(options) : [];
 
@@ -61,7 +62,7 @@ export async function PUT(request) {
 		const newImageFiles = formData.getAll('newImages'); // newly uploaded files
 		await connectDB();
 
-		const productToUpdate = await Product.findOne({ _id: productId, userId });
+		const productToUpdate = await Product.findOne({ _id: productId });
 		if (!productToUpdate) {
 			return NextResponse.json(
 				{ success: false, message: 'Product not found or not authorized' },
@@ -115,7 +116,7 @@ export async function PUT(request) {
 
 		// 5️⃣ Update product
 		const updatedProduct = await Product.findOneAndUpdate(
-			{ _id: productId, userId },
+			{ _id: productId },
 			{
 				...(name && { name }),
 				...(description && { description }),
@@ -129,6 +130,7 @@ export async function PUT(request) {
 				}),
 				...(shop && { shop }),
 				...(options && { options: parsedOptions }),
+				...(quantity && { quantity: Number(quantity) }), // Update quantity
 				image: finalImages,
 			},
 			{ new: true }

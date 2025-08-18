@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { X } from 'lucide-react';
+import { assets } from '@/assets/assets';
 
 const OrderDetailsModal = ({ order, onClose, onUpdateState }) => {
 	if (!order) return null;
@@ -69,7 +70,10 @@ const OrderDetailsModal = ({ order, onClose, onUpdateState }) => {
 								Dates
 							</h3>
 							<p className='text-sm text-gray-600'>
-								Created: {new Date(order.date).toLocaleString()}
+								Created: {order.createdAt.slice(0, 10)}
+							</p>
+							<p className='text-sm text-gray-600'>
+								Updated: {order.updatedAt.slice(0, 10)}
 							</p>
 						</div>
 					</div>
@@ -87,7 +91,7 @@ const OrderDetailsModal = ({ order, onClose, onUpdateState }) => {
 								>
 									<div className='flex items-center gap-4'>
 										<img
-											src={item.product.image?.[0]?.url}
+											src={item.product?.image?.[0]?.url || assets.placeholder}
 											alt={item.product.name}
 											className='w-16 h-16 object-cover rounded'
 										/>
